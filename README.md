@@ -142,47 +142,47 @@ AWS has 200+ cloud services.
 
 - Databases - RDS SQL Databases
 
-Analytics
+- Analytics
 
-Application Integration
+- Application Integration
 
-AR and VR
+- AR and VR
 
-AWS Cost Management
+- AWS Cost Management
 
-Blockchain
+- Blockchain
 
-Business Applications
+- Business Applications
 
-Containers
+- Containers
 
-Customer Engagement
+- Customer Engagement
 
-Developer Tools
+- Developer Tools
 
-End User Computing
+- End User Computing
 
-Game Tech
+- Game Tech
 
-Internet of Things
+- Internet of Things
 
-Machine Learning
+- Machine Learning
 
-Management and Governance
+- Management and Governance
 
-Media Services
+- Media Services
 
-Migration and Transfer
+- Migration and Transfer
 
-Mobile
+- Mobile
 
-Quantum Technologies
+- Quantum Technologies
 
-Robotics
+- Robotics
 
-Satellites
+- Satellites
 
-Security, Identity and Compliance
+- Security, Identity and Compliance
 
 ### Evolution of Computing
 
@@ -197,7 +197,7 @@ Dedicated:
 - Multiple apps can result in conflicts in resource sharing
 - Technically, you have a guarantee of security, privacy and full utility of the underlying resources
 
-VMs:
+Virtual Machines:
 
 - You can run multiple virtual machines on one machine
 - Hypervisor is the software layer that lets you run the VMs
@@ -225,3 +225,35 @@ Functions:
 - You're only responsible for code and data, nothing else
 - Very cost-effective, you only pay for the time the code is running. VMs only run when there is code to be executed.
 - Cold Starts are a side-effect of this setup
+
+### Types of Cloud Computing
+
+Saas (Software as a service)
+
+A product that is run and managed by a service provider. You don't worry about how the service is maintained. It just works and remains available.
+
+PaaS (Platform as a Service)
+
+Fosued on the deployment and management of your apps. You don't worry about provisioning, configuring or understanding the hardware or OS.
+
+IaaS (Infrastructure as a Service)
+
+The basic building blocks for Cloud IT. Provides access to networking features, computers and data storage space. You don't worry about IT staff, data centres and hardware.
+
+### Cloud Computing Deployment Models
+
+Public Cloud
+
+**Everything** (the workload or project) is built on the CSP. Also known as Cloud-Native or Cloud-First.
+
+Private Cloud
+
+Everything is built on a company's datacentres. Also known as On-Premise. The cloud could be OpenStack.
+
+Hybrid
+
+Using both On-Premise and a Cloud Service Provider.
+
+Cross Cloud
+
+Using multiple Cloud Service Providers. Also known as multi-cloud
