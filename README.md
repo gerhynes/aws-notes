@@ -105,3 +105,123 @@ A Cloud Service Provider is a company which:
 - those cloud services offer automation via Infrastructure as Code (IaC)
 
 If a company offers multiple cloud services under a single UI but do not meet most of these requirements, it's referred to as a Cloud Platform (for example, Twilio, HashiCorp, Databricks).
+
+### Landscape of CSPs
+
+Tier-1 (Top Tier) - Early to market, wide offering, strong synergies between services, well-recognised in the industry: AWS, Azure, GCP, Alibaba Cloud.
+
+Tier-2 (Mid Tier) - Backed by well-known tech companies, slow to innovate and turned to specialization: IBM Cloud, Oracle Cloud, Rackspace.
+
+Tier-2 (Light Tier): VPSs turned to offer core IaaS offering. Simple, cost-effective: Vultr, Digital Ocean, Linode.
+
+### Gartner Magic Quadrant for Cloud
+
+Magic Quadrant (MQ) is a series of market research reports published by IT consulting form Gartner that rely on proprietary qualitative data analysis methods to demonstrate market trends, such as direction, maturity and participants. It puts AWS in the lead.
+
+### Common Cloud Services
+
+A CSP can have hundreds of cloud services that are grouped into various types of services. The four most common types of cloud service (the core 4) for IaaS would be:
+
+- Compute - Imagine having a virtual computer that can run applications, programs and code
+
+- Networking - Imagine having a virtual network defining internet connections or network isolations between services or outbound to the internet
+
+- Storage - Imagine having a virtual hard-drive that can store files
+
+- Databases - Imagine a virtual database for storing reporting data or a database for general purpose web applications
+
+AWS has 200+ cloud services.
+
+### AWS Technology Overview
+
+- Compute - EC2 Virtual Machines
+
+- Networking - VPC Private Cloud Network
+
+- Storage - EBS Virtual Hard Drives
+
+- Databases - RDS SQL Databases
+
+Analytics
+
+Application Integration
+
+AR and VR
+
+AWS Cost Management
+
+Blockchain
+
+Business Applications
+
+Containers
+
+Customer Engagement
+
+Developer Tools
+
+End User Computing
+
+Game Tech
+
+Internet of Things
+
+Machine Learning
+
+Management and Governance
+
+Media Services
+
+Migration and Transfer
+
+Mobile
+
+Quantum Technologies
+
+Robotics
+
+Satellites
+
+Security, Identity and Compliance
+
+### Evolution of Computing
+
+Dedicated:
+
+- A physical server wholly utilized by a single customer
+- You have to guess your capacity
+- You'll overpay for an underutilized server
+- You can't vertically scale, you need a manual migration
+- Replacing a server is very difficult
+- You are limited by the host operating system
+- Multiple apps can result in conflicts in resource sharing
+- Technically, you have a guarantee of security, privacy and full utility of the underlying resources
+
+VMs:
+
+- You can run multiple virtual machines on one machine
+- Hypervisor is the software layer that lets you run the VMs
+- A physical server shared by multiple customers
+- You pay for a fraction of the server
+- You'll overpay for an underutilized VM
+- You are limited by the guest operating system
+- Multiple apps on a single VM can result in conflicts in resource sharing
+- Easier to export or import images for migration
+- Easier to vertically or horizontally scale
+
+Containers:
+
+- Virtual machine running multiple containers
+- Docker Daemon is the software layer that lets you run multiple containers
+- You can maximize the utilization of the available capacity, which is more cost-effective
+- Your containers share the same underlying OS so containers are more efficient thatn multiple VMs
+- Multiple apps can run side by side without being limited to the same OS requirements and will not cause conflicts during resource sharing.
+
+Functions:
+
+- Managed VMs running managed containers
+- Known as Serverless Compute
+- You upload a piece of code, choose the amount of memery and duration
+- You're only responsible for code and data, nothing else
+- Very cost-effective, you only pay for the time the code is running. VMs only run when there is code to be executed.
+- Cold Starts are a side-effect of this setup
