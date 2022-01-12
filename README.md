@@ -27,14 +27,14 @@ The exam is valid for 36 months before recertification.
 
 Cloud computing is the practice of using a network of remote servers hosted on the internet to store, manage, and process data, rather than a local server or a personal computer.
 
-On-Premise:
+**On-Premise**
 
 - You own the servers
 - You hire the IT staff
 - You own or rent the real-estate
 - You take all the risks
 
-Cloud Providers:
+**Cloud Providers**
 
 - Someone else owns the servers
 - Someone else hires the IT staff
@@ -43,26 +43,26 @@ Cloud Providers:
 
 ### The Evolution of Cloud Hosting
 
-Dedicated Server
+**Dedicated Server**
 
 - One physical machine dedicated to a single business.
 - Runs a single web app
 - Very expensive, high maintenance, high security
 
-Virtual Private Server (VPS)
+**Virtual Private Server (VPS)**
 
 - One physical machine dedicated to a single business
 - The physical machine is virtualized into sub-machines
 - Runs multiple web apps
 - Better utilization and isolation of resources
 
-Shared Hosting
+**Shared Hosting**
 
 - One physical machine shared by hundreds of businesses
 - Relies on most tenants under-utilizing their resources
 - Very cheap, limited functionality, poor isolation
 
-Cloud Hosting
+**Cloud Hosting**
 
 - Multiple physical machines that act as one system
 - The system is abstracted into multiple cloud services
@@ -108,11 +108,17 @@ If a company offers multiple cloud services under a single UI but do not meet mo
 
 ### Landscape of CSPs
 
-Tier-1 (Top Tier) - Early to market, wide offering, strong synergies between services, well-recognised in the industry: AWS, Azure, GCP, Alibaba Cloud.
+**Tier-1 (Top Tier)**
 
-Tier-2 (Mid Tier) - Backed by well-known tech companies, slow to innovate and turned to specialization: IBM Cloud, Oracle Cloud, Rackspace.
+Early to market, wide offering, strong synergies between services, well-recognised in the industry: AWS, Azure, GCP, Alibaba Cloud.
 
-Tier-2 (Light Tier): VPSs turned to offer core IaaS offering. Simple, cost-effective: Vultr, Digital Ocean, Linode.
+**Tier-2 (Mid Tier)**
+
+Backed by well-known tech companies, slow to innovate and turned to specialization: IBM Cloud, Oracle Cloud, Rackspace.
+
+**Tier-3 (Light Tier)**
+
+VPSs turned to offer core IaaS offering. Simple, cost-effective: Vultr, Digital Ocean, Linode.
 
 ### Gartner Magic Quadrant for Cloud
 
@@ -122,13 +128,21 @@ Magic Quadrant (MQ) is a series of market research reports published by IT consu
 
 A CSP can have hundreds of cloud services that are grouped into various types of services. The four most common types of cloud service (the core 4) for IaaS would be:
 
-- Compute - Imagine having a virtual computer that can run applications, programs and code
+**Compute**
 
-- Networking - Imagine having a virtual network defining internet connections or network isolations between services or outbound to the internet
+Imagine having a virtual computer that can run applications, programs and code
 
-- Storage - Imagine having a virtual hard-drive that can store files
+**Networking**
 
-- Databases - Imagine a virtual database for storing reporting data or a database for general purpose web applications
+Imagine having a virtual network defining internet connections or network isolations between services or outbound to the internet
+
+**Storage**
+
+Imagine having a virtual hard-drive that can store files
+
+**Databases**
+
+Imagine a virtual database for storing reporting data or a database for general purpose web applications
 
 AWS has 200+ cloud services.
 
@@ -186,7 +200,7 @@ AWS has 200+ cloud services.
 
 ### Evolution of Computing
 
-Dedicated:
+**Dedicated**
 
 - A physical server wholly utilized by a single customer
 - You have to guess your capacity
@@ -197,7 +211,7 @@ Dedicated:
 - Multiple apps can result in conflicts in resource sharing
 - Technically, you have a guarantee of security, privacy and full utility of the underlying resources
 
-Virtual Machines:
+**Virtual Machines**
 
 - You can run multiple virtual machines on one machine
 - Hypervisor is the software layer that lets you run the VMs
@@ -209,7 +223,7 @@ Virtual Machines:
 - Easier to export or import images for migration
 - Easier to vertically or horizontally scale
 
-Containers:
+**Containers**
 
 - Virtual machine running multiple containers
 - Docker Daemon is the software layer that lets you run multiple containers
@@ -217,7 +231,7 @@ Containers:
 - Your containers share the same underlying OS so containers are more efficient thatn multiple VMs
 - Multiple apps can run side by side without being limited to the same OS requirements and will not cause conflicts during resource sharing.
 
-Functions:
+**Functions**
 
 - Managed VMs running managed containers
 - Known as Serverless Compute
@@ -228,32 +242,32 @@ Functions:
 
 ### Types of Cloud Computing
 
-Saas (Software as a service)
+**Saas** (Software as a service)
 
 A product that is run and managed by a service provider. You don't worry about how the service is maintained. It just works and remains available.
 
-PaaS (Platform as a Service)
+**PaaS** (Platform as a Service)
 
 Fosued on the deployment and management of your apps. You don't worry about provisioning, configuring or understanding the hardware or OS.
 
-IaaS (Infrastructure as a Service)
+**IaaS** (Infrastructure as a Service)
 
 The basic building blocks for Cloud IT. Provides access to networking features, computers and data storage space. You don't worry about IT staff, data centres and hardware.
 
 ### Cloud Computing Deployment Models
 
-Public Cloud
+**Public Cloud**
 
-**Everything** (the workload or project) is built on the CSP. Also known as Cloud-Native or Cloud-First.
+Everything (the workload or project) is built on the CSP. Also known as Cloud-Native or Cloud-First.
 
-Private Cloud
+**Private Cloud**
 
 Everything is built on a company's datacentres. Also known as On-Premise. The cloud could be OpenStack.
 
-Hybrid
+**Hybrid**
 
 Using both On-Premise and a Cloud Service Provider.
 
-Cross Cloud
+**Cross Cloud**
 
 Using multiple Cloud Service Providers. Also known as multi-cloud
