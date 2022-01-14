@@ -271,3 +271,56 @@ Using both On-Premise and a Cloud Service Provider.
 **Cross Cloud**
 
 Using multiple Cloud Service Providers. Also known as multi-cloud
+
+### Deployment Model Use Cases
+
+**Cloud**
+
+Companies that are starting out today, or are small enough to make the leap from a VPS to a CSP.
+
+- Startups
+- SaaS offerings
+- New projects and companies
+
+**Hybrid**
+
+Organizations that started with their own datacentre, can't fully move to cloud due to the effort of migration or security compliance.
+
+- Banks
+- finTech, Investment Management
+- Large professional service providers
+- Legacy on-premise
+
+**On-Premise / Private Cloud**
+
+Organizations that cannot run on cloud due to strict regulatory compliance or the sheer size of their organization.
+
+- Public Sector, Government
+- Super Sensitive Data, Hospitals
+- Large enterprises with heavy regulation, Insurance Companies
+
+There isn't really a good reason to be wholly on-premise.
+
+### AWS Free Tier
+
+AWS makes a free tier available for the first 12 months of a new AWS account. The are limitations to which services, and how much of them, are available on the free tier.
+
+You can set up alerts in the Billing Management Console to warn you if you are approaching free tier limits.
+
+### Innovation Waves
+
+Kondratiev Waves are hypothesized cycle-like phenomena in the global world economy, closely linked to technology life cycles. Each wave irreversibly changes society on a global scale. Cloud technology is arguably the latest wave.
+
+### Burning Platform
+
+Burning platform is a term used when a company abandons old technology for new technology, with an uncertainty of success. It can be motivated by fear that the organization's future survival hinges on its digital transformation.
+
+### Evolution of Computing Power
+
+Computing power is the throughput measured at which a computer can complete a computational task. We're not done with it by any means.
+
+GPU computing is approximately 50x faster than traditional CPUs.
+
+Quantum Computing is 100 million times faster than traditional CPUs.
+
+In these 3 categories would be AWS's Elastic Compute Cloud (EC2), AWS Inferentiare (Inf1), and AWS Bracket (via CalTech).
