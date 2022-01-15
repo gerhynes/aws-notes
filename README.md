@@ -324,3 +324,75 @@ GPU computing is approximately 50x faster than traditional CPUs.
 Quantum Computing is 100 million times faster than traditional CPUs.
 
 In these 3 categories would be AWS's Elastic Compute Cloud (EC2), AWS Inferentiare (Inf1), and AWS Bracket (via CalTech).
+
+### The Benefits of Cloud
+
+Originally the Six Advantages of Cloud.
+
+- Agility
+- Pay-as-you-go pricing
+- Economies of scale
+- Global reach
+- Security
+- Reliability
+- High Availability
+- Scalability
+- Elasticity
+- Fault Tolerance
+- Disaster Recovery
+
+### The Six Advantages of Cloud
+
+1. Trade capital expense for variable expense
+
+You can pay on-demand, meaning there's no upfront cost and you pay for only what you consume or by the hour, minute, second.
+
+2. Benefit from massive economies of scale
+
+You are sharing the cost with other customers to get unbeatable savings.
+
+3. Stop guessing capacity
+
+Scale up or down to meet the current need. Launch and destroy services whenever.
+
+4. Increase speed and agility
+
+Launch resources in minutes with a few clicks
+
+5. Stop spending money on running and maintaining data centers
+
+Focus on your own customers and developing your own applications.
+
+6. Go global in minutes
+
+Deploy your app in multiple regions around the world with a few clicks, providing low latency and a better experience for your customers.
+
+### Seven Advantages to Cloud
+
+**Cost-efective**
+
+You pay for what you consume, no up-front cost.
+
+**Global**
+
+Launch workloads anywhere in the world, just choose a region.
+
+**Secure**
+
+Cloud providers take care of physical security and cloud services can be secure by default.
+
+**Reliable**
+
+Data backup, disaster recovery, data replication and fault tolerance.
+
+**Scalable**
+
+Increase or decrease resources and services based on demand.
+
+**Elastic**
+
+Automate scaling during spikes and drop in demand
+
+**Current**
+
+The underlying hardware and managed software is patched, upgraded and replaced by the cloud provider without interruption to you.
