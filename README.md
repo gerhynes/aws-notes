@@ -435,3 +435,37 @@ When you choose a region you need to consider four factors:
 3. What AWS services are available in this region?
 
 4. What is the distance or latency to end-users?
+
+### Regional vs Global Services
+
+**Regional Services**
+
+AWS scopes their AWS Management Console on a selected Region. This will determine where an AWS service will be launched and what will be seen within an AWS service's console.
+
+**Global Services**
+
+Some AWS services operate across multiple regions and the region will be fixed to "Global", for example S3, CloudFront, Route53, IAM.
+
+For these global services, at the time of creation:
+
+- There is no concept of region, for example an IAM user
+- A single region must be explicitly chosen, for example an S3 buckaet
+- A group of regions are chosen, for example CloudFront Distributed
+
+### Availibility Zones (AZs)
+
+An Availability Zone (AZ) is a physcial location made up of one or more data centres, securely containing hundreds or thousands of computers.
+
+A region will \*generally contain 3 Availability Zones.
+
+Data centres within a region will be isolated from each other (different buildings). But they will be close enough to provide low latency (within 100km and < 10ms latency).
+
+All traffic between AZs is encrypted.
+
+It's common practice to run workloads in at least 3 AZs to ensure services remain available in case one or two data centres fail (high availability).
+
+AZs are represented by a region code and letter, for example us-east-1a.
+
+You never chose an AZ when launching resources. You chose the Subnet which is associated to the AZ.
+
+US-EAST-1 has 6 AZs, the most AZs of any region.
