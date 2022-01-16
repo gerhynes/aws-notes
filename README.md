@@ -396,3 +396,42 @@ Automate scaling during spikes and drop in demand
 **Current**
 
 The underlying hardware and managed software is patched, upgraded and replaced by the cloud provider without interruption to you.
+
+### AWS Global Infrastrcture Overview
+
+The AWS global infrastructure is globally distributed hardware and data centers that are physically networked together to act as one large resource for the end customer. It is (currently) made up of:
+
+- 25 launched regions
+- 81 availability zones
+- 108 direct connection locations
+- 275+ points of presence
+- 11 local zones
+- 17 wavelength zones
+
+### Regions
+
+Regions are geographically distinct locations consisting of one or more Availability Zones.
+
+Every region is physically isolated from and independent of every other region in terms of location, power and water supply.
+
+US-East 1 (Northern Virginia) was AWS's first region.
+
+Each region generally has three Availability Zones.
+
+New services almost always become available first in US-East.
+
+Not all AWS services are available in all regions.
+
+Al your billing information appears in US-East 1.
+
+The costs of AWS services vary per region.
+
+When you choose a region you need to consider four factors:
+
+1. What regulatory compliance does this region meet?
+
+2. What is the cost of AWS services in this region?
+
+3. What AWS services are available in this region?
+
+4. What is the distance or latency to end-users?
