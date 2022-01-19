@@ -469,3 +469,43 @@ AZs are represented by a region code and letter, for example us-east-1a.
 You never chose an AZ when launching resources. You chose the Subnet which is associated to the AZ.
 
 US-EAST-1 has 6 AZs, the most AZs of any region.
+
+Some services, such as EC2, are regional and require you to select a subnet and AZ. Others, such as S3, are global.
+
+### Fault Tolerance
+
+A fault domain is a section of a network that is vulnerable to damage if a critical device or system fails. The purpose of a fault domain is that if a failure occurs it will not cascade outside that domain, limiting the possible damage.
+
+You can have fault domains nested inside fault domains.
+
+A fault level is a collection of fault domains.
+
+An AWS Region would be a Fault Level.
+
+An Availability Zone would be a Fault Domain.
+
+The scope of a fault domain could be:
+
+- specific servers in a rack
+- an entire rack in a data center
+- an entire room in a data center
+- the entire data center building
+
+It's up to the CSP to determine the boundaries of a domain.
+
+Each Amazon Region is designed to be completely isolated from the other Amazon Regions. This achieves the greatest possible fault tolerance and stability.
+
+Each Availability Zone is isolated, but the Availability Zones in a Region are connected through low-latency links.
+
+Each Availability Zone is designed to be an independent failure zone (fault domain).
+
+**Failure Zone**
+
+- AZs are physically seperated within a typical metropolitan region and are located in lower risk flood plains
+- discrete uninterruptable power supply (UPS) and onsite backup generation facilities
+- data centers located in different AZs are designed to be supplied by independent substations to reduce the risk of an event on the power grid impacting more than one AZ
+- AZs are all redundantly connected to multiple tier-1 transit providers
+
+**Multi-AZ for High Availability**
+
+If an application is partitioned across AZs, companies are better isolated and protected from issues such as power outages, lightning strikes, tornadoes, earthquakes and more.
