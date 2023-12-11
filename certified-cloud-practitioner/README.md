@@ -1,4 +1,4 @@
-# AWS Notes
+# AWS Certified Cloud Practitioner Notes
 
 Sources:
 - [AWS Certified Cloud Practitioner Certification Course](https://www.exampro.co/clf-c01).
@@ -176,13 +176,13 @@ AWS has 200+ cloud services.
 - Virtual machine running multiple containers
 - Docker Daemon is the software layer that lets you run multiple containers
 - You can maximize the utilization of the available capacity, which is more cost-effective
-- Your containers share the same underlying OS so containers are more efficient thatn multiple VMs
+- Your containers share the same underlying OS so containers are more efficient than multiple VMs
 - Multiple apps can run side by side without being limited to the same OS requirements and will not cause conflicts during resource sharing.
 
 #### Functions
 - Managed VMs running managed containers
 - Known as Serverless Compute
-- You upload a piece of code, choose the amount of memery and duration
+- You upload a piece of code, choose the amount of memory and duration
 - You're only responsible for code and data, nothing else
 - Very cost-effective, you only pay for the time the code is running. VMs only run when there is code to be executed.
 - Cold Starts are a side-effect of this setup
@@ -365,7 +365,7 @@ For these global services, at the time of creation:
 - A group of regions are chosen, for example CloudFront Distributed
 
 ### Availibility Zones (AZs)
-An **Availability Zone** (AZ) is a physcial location made up of one or more data centres, securely containing hundreds or thousands of computers.
+An **Availability Zone** (AZ) is a physical location made up of one or more data centres, securely containing hundreds or thousands of computers.
 
 A region will \*generally contain 3 Availability Zones.
 
@@ -429,7 +429,7 @@ The **AWS Global Network** represents the interconnections between AWS Global In
 **VPC Endpoints** ensure your resources stay within the AWS Network and do not traverse over the public internet.
 
 ### Points of Presence (PoP)
-**Points of Presence** (PoP) are intermediate locations between an AWS Region and the end user. This location could be a datacenter or a collectiomn of hardware.
+**Points of Presence** (PoP) are intermediate locations between an AWS Region and the end user. This location could be a datacenter or a collection of hardware.
 
 For AWS, a Point of Presence is a datacenter owned by AWS or a trusted partner that is utilized by AWS Services related to content delivery or expediated upload.
 
@@ -467,7 +467,7 @@ Direct Connect has two very fast network connection options.
 
 This helps reduce network costs and increase bandwidth throughput (great for high traffic networks).
 
-It provides a more consisten network experience than a typical internet-based connection (more reliable and secure).
+It provides a more consistent network experience than a typical internet-based connection (more reliable and secure).
 
 A co-location (aka carrier-hotel) is a data center where equipment, space and bandwidth are available for rental to retail customers.
 
@@ -583,7 +583,7 @@ Example use case: A company reaches an agreement with a Satellite Image Provider
 
 An AWS Outpost is a rack of servers running AWS infrastructure in your physical location.
 
-A **Server Rack** is a frame designed to hold and organize IT equipment. The indiustry standard rack size is 48U (7 foot rack). U stands for "rack units" or "U spaces" which is equal to 1.75 inches.
+A **Server Rack** is a frame designed to hold and organize IT equipment. The industry standard rack size is 48U (7 foot rack). U stands for "rack units" or "U spaces" which is equal to 1.75 inches.
 
 A full-size rack cage is 42U high. Equipment is typically sized 1U, 2U, 3U or 4U high. 
 
@@ -619,7 +619,7 @@ A cloud architect needs to understand the following terms and factor them into t
 - **Disaster Recovery** - Your ability to recover from a failure. Highly Durable (HD)
 
 A solutions architect also needs to always consider the following business factors:
-- **Security** - How secure is this soution?
+- **Security** - How secure is this solution?
 - **Cost** - How much is this going to cost?
 
 ### High Availability
@@ -632,7 +632,7 @@ Running your workload across multiple Availability Zones ensures that if 1 or 2 
 ### High Scalability
 **High Scalability** is your ability to increase your capacity based on the increasing demands of traffic, memory and computing power.
 
-Vertical scalaing (scaling up) involves upgrading to a bigger server.
+Vertical scaling (scaling up) involves upgrading to a bigger server.
 
 Horizontal scaling (scaling out) involves adding more servers of the same size. This also improves availability.
 
@@ -648,7 +648,7 @@ Auto Scaling Groups (ASG) is an AWS feature that will automatically add or remov
 ### Fault Tolerance
 **Fault Tolerance** is your ability for your service to ensure there is no single point of failure, preventing the chance of failure.
 
-**Fail-overs** is when you have a plan to shift traffic to a redundent system in case the primary system fails.
+**Fail-overs** is when you have a plan to shift traffic to a redundant system in case the primary system fails.
 
 A comon example is having a secondary copy of your database where all ongoing changes are synced. The secondary system is not in use until a fail over occurs and it becomes the primary database.
 
@@ -703,7 +703,7 @@ There are multiple options for recovery that trade cost vs time to recover.
 
 ## Management and Development Tools
 ### AWS API
-An API is software that allows two applications/services to talk to each other. The msot common type of API is via HTTP/S requests.
+An API is software that allows two applications/services to talk to each other. The most common type of API is via HTTP/S requests.
 
 AWS API is a HTTP API that you can interact with by sending requests from an application such as Postman.
 
@@ -721,7 +721,7 @@ User rarely send HTTP requests directly to the AWS API. It's much easier to inte
 ### AWS Management Console
 The AWS Management Console is a web-based unified console, located at console.aws.amazon.com, that allows you to build, manage and monitor everything from simple web apps to complex cloud deployments.
 
-The console allows you to point and click to manually launch and configure AWS resources with limted programmng knowledge. This is know as **ClickOps** since you perform all your system operations via clicks.
+The console allows you to point and click to manually launch and configure AWS resources with limited programming knowledge. This is know as **ClickOps** since you perform all your system operations via clicks.
 
 ### Service Console
 AWS services each have their own customized console. You can access these consoles by searching the service name. 
@@ -734,7 +734,7 @@ Some AWS service consoles will act as an umbrella console containing many AWS se
 - CloudWatch Console
 
 ### AWS Account ID
-Every AWS account has a unique **Account ID**. The Accoutn ID can be easily found by dropping down the current user in the Global Navigation.
+Every AWS account has a unique **Account ID**. The Account ID can be easily found by dropping down the current user in the Global Navigation.
 
 The AWS Account ID is composed of 12 digits.
 
@@ -787,7 +787,7 @@ ARNs can include a path and paths can include a wildcard character:
 - S3 ARN path `arn:aws:s3:::my_corporate_bucket/Development/*`
 
 ### AWS Command Line Interface (CLI)
- A command line interface (CLI) processes commands to a computer program in the form of lines of text. Operating systems implement a CLI in a shell.
+A command line interface (CLI) processes commands to a computer program in the form of lines of text. Operating systems implement a CLI in a shell.
 
 A terminal is a text-only interface. A console is a physical computer to physically input information into a terminal.
 
@@ -1034,7 +1034,7 @@ AWS is responsible for:
 ### Shared Responsibility Model Alternative
 The Shared Responsibility Model is a simple visualization that helps determine what the customer is responsible for and what the CSP is responsible for.
 
-The Customer is responsible for the data and the configuartion of access controls that reside in AWS.
+The Customer is responsible for the data and the configuration of access controls that reside in AWS.
 
 The Customer is responsible for the configuration of cloud services and granting access to to users via permissions.
 
@@ -1075,7 +1075,7 @@ EC2 is also considered the backbone of AWS because the majority of AWS services 
 ### VMs, Containers and Serverless
 **Virtual Machines** are an emulation of a physical computer using software.
 
-**Amazon Lightsail** is the managed virtual server service. It's the "friendly" version of EC2 Virtual Machines. Use it when you need to launch a Linux or Windows server but don't have much AWS knowledge, such as launchign a Wordpress site.
+**Amazon Lightsail** is the managed virtual server service. It's the "friendly" version of EC2 Virtual Machines. Use it when you need to launch a Linux or Windows server but don't have much AWS knowledge, such as launching a WordPress site.
 
 **Containers** are virtualizations of an OS to run multiple workloads on a single OS instance. Containers are generally used in microservice architecture, where you divide your application into smaller applications that talk to each other.
 
@@ -1124,7 +1124,7 @@ The **Nitro System** is a combination of dedicated hardware and lightweight hype
 
 **Capacity Management** is how you meet the demands of traffic and usage by adding or upgrading servers.
 
-**EC2 Spot Instances**, **Reserved Instances** and **Savings Plans** are ways to save on computing, by paying up front in full or partially, by committing to a yearly contracxt, or by being flexible about availability and interruptions to computing services.
+**EC2 Spot Instances**, **Reserved Instances** and **Savings Plans** are ways to save on computing, by paying up front in full or partially, by committing to a yearly contract, or by being flexible about availability and interruptions to computing services.
 
 **AWS Batch** plans, schedules and executes your batch computing workloads across the full range of AWS compute services, and can utilize Spot Instances to save money.
 
@@ -1335,7 +1335,7 @@ RDS supports the following SQL engines:
 ### Other Database Services
 **Redshift** is a petabyte-sized data warehouse. Data warehouses are for Online analytical Processing (OLAP). Data warehouses can be expensive because they keep data "hot", meaning they can run a very complex query on a large amount of data and get that data back quickly. Use this when you need to quickly generate analytics or reports from a large amount of data.
 
-**ElastiCache** is a managed database for in-memory and caching open-soure databases like Redis or Memcached. Use this when you need to improve the performance of an application by adding a caching layer in front of a web server or database.  
+**ElastiCache** is a managed database for in-memory and caching open-source databases like Redis or Memcached. Use this when you need to improve the performance of an application by adding a caching layer in front of a web server or database.  
 
 **Neptune** is a managed graph database. Data is represented as interconnected nodes. Use this when you need to understand the connections between data, such as mapping fraud rings or social media relationships.
 
@@ -1419,7 +1419,7 @@ Instance Families are commonly called "instance types" but an instance type is a
 ## EC2 Instance Types
 An **Instance Type** is a particular instance size and instance family.
 
-A comon pattern for instance sizes is:
+A common pattern for instance sizes is:
 - nano
 - micro
 - small
@@ -1464,10 +1464,10 @@ EC2 has three levels of tenancy:
 ## EC2 Pricing Models
 There are 5 different ways to pay for EC2 virtual machines.
 
-**On-Demand** (least committment)
+**On-Demand** (least commitment)
 - low cost and flexible
 - only pay per hour or second
-- use for short-term, spiky, unpredicatbale workloads
+- use for short-term, spiky, unpredictable workloads
 - cannot be interrupted
 - use for first time apps
 
@@ -1531,7 +1531,7 @@ RIs can be shared between multiple accounts within an AWS Organization.
 Unused RIs can be sold in the Reserved Instance Marketplace.
 
 ### RI Attributes
-**RI Attributes** (aka Instance Attributes) are limited based on CLass Offering and can affect the final price of an RI instance. There are 4 RI Attributes:
+**RI Attributes** (aka Instance Attributes) are limited based on Class Offering and can affect the final price of an RI instance. There are 4 RI Attributes:
 1. **Instance Type**: for example, m4.large. This is composed of the instance family (for example, m4) and the instance size (for example, large)
 2. **Region**: The Region in which the Reserved Instance is purchased
 3. **Tenancy**: Whether your instance runs on shared (default) or single-tenant (dedicated) hardware
@@ -1630,9 +1630,9 @@ When you have strict server-bound licensing that won't support multi-tenancy or 
 
 Instances can be multi-tenant or single-tenant.
 
-Multi-tenant is when multiple customers are running workloads on the same hardware, seperated by virtual isolation. Think of living in an apartment building.
+Multi-tenant is when multiple customers are running workloads on the same hardware, separated by virtual isolation. Think of living in an apartment building.
 
-Single-tenant is when a single customer has dedicated hardware, seperated by physical isolation. Think of living in your own house.
+Single-tenant is when a single customer has dedicated hardware, separated by physical isolation. Think of living in your own house.
 
 You choose tenancy when you launch your EC2 instance.
 
@@ -1655,7 +1655,7 @@ You choose between two different terms:
 - 1 year
 - 3 year
 
-You choose an hourly committment and the payment options:
+You choose an hourly commitment and the payment options:
 - All Upfront
 - Partial Upfront
 - No upfront
@@ -1699,7 +1699,7 @@ AWS does not have ready-to-use identity controls that are intelligent, which is 
 
 AWS services can be set up for intelligent-ish detection of identity concerns but require expert knowledge.
 - **AWS CloudTrail** tracks all API calls
-- **Amazon GuardDuty** detects suspicious or malicous activity based on CloudTrail and other logs
+- **Amazon GuardDuty** detects suspicious or malicious activity based on CloudTrail and other logs
 - **Amazon Detective** is used to analyze, investigate and quickly identify security issues  (can ingest findings from GuardDuty)
 
 ### Zero-Trust on AWS with Third-Parties
@@ -1722,7 +1722,7 @@ You would connect these to AWS via AWS Single Sign On (SSO).
 ### Directory Service
 A **Directory Service** maps the names of network resources to their network addresses.
 
-A directory service is shared information infrastructure for locating, managing, admnistering and organizing resources:
+A directory service is shared information infrastructure for locating, managing, administering and organizing resources:
 - Volumes
 - Folders
 - Files
@@ -1922,10 +1922,10 @@ The receivers of messages (**subscribers**) subscribe to these groups. Whenever 
 
 This pattern is commonly used for real-time chat systems or web-hook systems.
 
-**Simple Notification Service** (SNS) is a highyl available, durable, secure, fully managed pub-sub messaging service that enables you to decouple microservices, distributed systems, and serverless applications.
+**Simple Notification Service** (SNS) is a highly available, durable, secure, fully managed pub-sub messaging service that enables you to decouple microservices, distributed systems, and serverless applications.
 
 ### API Gateway
-An **API Gateway** is a program that sits between a single entrypoint and multiple backends. API Gateways allow for throttling, loggin, routing logic, or formatting of the HTTP request and response.
+An **API Gateway** is a program that sits between a single entry point and multiple backends. API Gateways allow for throttling, logging, routing logic, or formatting of the HTTP request and response.
 
 **Amazon API Gateway** is a solution for creating secure APIs in your cloud environment at any scale. You can create APIs that act as a front door for applications to access data, business logic, or functionality from backend services.
 
@@ -1934,7 +1934,7 @@ A **State Machine** is an abstract model which decides how one state moves to an
 
 **AWS Step Functions**
 - Coordinate multiple AWS services into a serverless workload
-- Provide a graphical interface to visualize the components of tyour application as a series of steps
+- Provide a graphical interface to visualize the components of your application as a series of steps
 - Automatically triggers and tracks each step and retries when there are errors, so your application executes in order and as expected, every time
 - Logs the state of each step, so when things go wrong, you can diagnose and debug problems quickly
 
@@ -1966,13 +1966,13 @@ An **Event Bus** receives events from a source and routes events to a target bas
 
 **EventBridge** (previously CloudWatch Events) is a serverless event bus that makes it easy to connect applications together from your own application, third-party services and AWS services.
 
-**Kinesis** is a real-time streaming data service. Producers send data to a stream. Multiple consumers can consume data within a stream. USed for real-time analytics, click streams, ingesting data from a fleet of IoT devices.
+**Kinesis** is a real-time streaming data service. Producers send data to a stream. Multiple consumers can consume data within a stream. Used for real-time analytics, click streams, ingesting data from a fleet of IoT devices.
 
 **Amazon MQ** is a managed message broker service that uses Apache ActiveMQ.
 
-**Managed Kafka Service** (MSK) is a fully-managed Apache Kafka service. Kafka is an open-source platfrm for building real-time streaming data pipelines and applications, similar to Kinesis but more robust.
+**Managed Kafka Service** (MSK) is a fully-managed Apache Kafka service. Kafka is an open-source platform for building real-time streaming data pipelines and applications, similar to Kinesis but more robust.
 
-**API Gateway** is a fully-managed service for develpers to create, publish, mantain, monitor, and secure APIs. You can create API endpoints and route them to AWS services.
+**API Gateway** is a fully-managed service for developers to create, publish, maintain, monitor, and secure APIs. You can create API endpoints and route them to AWS services.
 
 **AppSync** is a fully managed GraphQL service. GraphQL is an open-source quuery language that allows you to query data from many different data sources.
 
@@ -2047,7 +2047,7 @@ Docker has been somewhat losing favour with developers  due to their handling of
 - AWS Lambda
 	- Only think about code
 	- Short running tasks
-	- Can deply custom containers
+	- Can deploy custom containers
 
 **Provisioning and Deployment**
 - Elastic Beanstalk (EB)
@@ -2069,7 +2069,7 @@ Docker has been somewhat losing favour with developers  due to their handling of
 
 ## Governance
 ### Organizations and Accounts
-**AWS Organizations** allow the creation of new AWS accounts. They let you centrally manage billing, control access, compliance, secuirty and share resources acxross your AWS accounts.
+**AWS Organizations** allow the creation of new AWS accounts. They let you centrally manage billing, control access, compliance, security and share resources across your AWS accounts.
 
 **Root Account User** is a single sign-in identity that has complete access to all AWS services and resources in an account. Each account has a Root Account User.
 
@@ -2137,7 +2137,7 @@ Examples could include:
 Tags allow you to organize your resources in the following ways:
 - Resource management - specific workloads, environments, such as Developer Environments
 - Cost management and optimization - Cost tracking, budgets, alerts
-- Operations management - Business committments and SLA operations, such as Mission-critical services
+- Operations management - Business commitments and SLA operations, such as Mission-critical services
 - Security - Classification of data and security impact
 - Governance and regulatory compliance
 - Automation
@@ -2157,12 +2157,12 @@ At any time, you can modify the settings of your resource groups to change what 
 
 Resource Groups appear under Resource Groups and Tag Editor.
 
-### Business-centric Services
+### Business-Centric Services
 **Amazon Connect** is a virtual call center service. You can create workflows to route callers, record phone calls, and manage a queue of callers. It's based on the same proven system used by Amazon customer service teams.
 
 **Workspaces** is a virtual remote desktop service. It's a secure managed service for provisioning either Windows or Linux desktops in just a few minutes which quickly scales up to thousands of desktops.
 
-**WorkDocs** is a shared collaboration service. It's a centralized store to share content and files, similar to Microsoft SharePoint. Think of it as a shared fodler where the company has ownership.
+**WorkDocs** is a shared collaboration service. It's a centralized store to share content and files, similar to Microsoft SharePoint. Think of it as a shared folder where the company has ownership.
 
 **Chime** is a video-conferencing service, similar to Zoom or Skype. You can screenshare and have multiple people on the call. It's secure by default and can show you a calendar of your upcoming calls.
 
@@ -2170,14 +2170,14 @@ Resource Groups appear under Resource Groups and Tag Editor.
 
 **Pinpoint** is a marketing campaign management service, for sending targeted emails, SMS, push notifications, and voice messages. You can perform A/B testing or create Journeys (complex email response workflows).
 
-**Simple Email Service** (SES) is a transactional email service. You can integrate SES into tyour application to send emails, create common templates, track open-rates, and keep track of your reputation.
+**Simple Email Service** (SES) is a transactional email service. You can integrate SES into your application to send emails, create common templates, track open-rates, and keep track of your reputation.
 
 **QuickSight** is a Business Intelligence (BI) service that lets you connect multiple data sources and quickly visualize data in the form of graphs with little to no programming knowledge.
 
 ## Provisioning
 **Provisioning** is the allocation or creation of resources and services to a customer. AWS Provisioning Services are responsible for setting up and then managing those AWS services.
 
-**Elastic Beanstalk** (EB) is a Platform as a Service (PaaS) to easily deploy web applications. EB will provision various AWS services, including EC2, S3, SNS, CLoudWatch, EC2 Auto Scaling Groups, and Elastic Load Balancer. It's the AWS equivalent to Heroku.
+**Elastic Beanstalk** (EB) is a Platform as a Service (PaaS) to easily deploy web applications. EB will provision various AWS services, including EC2, S3, SNS, CloudWatch, EC2 Auto Scaling Groups, and Elastic Load Balancer. It's the AWS equivalent to Heroku.
 
 **AWS OpsWorks** is a configuration management service that also provides managed instances of the open-source configuration management software Chef and Puppet.
 
@@ -2191,7 +2191,7 @@ Resource Groups appear under Resource Groups and Tag Editor.
 
 **AWS AppRunner** is a fully-managed service that makes it easy for developers to quickly deploy containerized web applications and APIs at scale and with no prior infrastructure experience required.
 
-**AWS Copilot** is a CLI that ernables customers to quickly launch and easily manage containerized applications on AWS.
+**AWS Copilot** is a CLI that enables customers to quickly launch and easily manage containerized applications on AWS.
 
 **AWS CodeStar** provides a unified user interface, enabling you to easily manage your software development activities in one place and easily launch common tech stacks, such as LAMP.
 
@@ -2227,7 +2227,7 @@ Elastic Beanstalk is powered by a CloudFormation template. It sets up for you:
 
 **Step Functions** is a state machine service. It coordinates multiple AWS services into serverless workflows, letting you easily share data among Lambdas, have a group of Lambdas wait for each other, and create logical steps. It also works with Fargate Tasks.
 
-**Aurora Serverless** is a serverless on-demand version of Aurora. Us eit when you want most of the benefits of Aurora but can trade having cold starts, or you don't have lots of traffic demand.
+**Aurora Serverless** is a serverless on-demand version of Aurora. Use it when you want most of the benefits of Aurora but can trade having cold starts, or you don't have lots of traffic demand.
 
 ### Serverless Architecture
 Serverless architecture generally describes fully managed cloud services. The classification of a cloud service as being serverless is not a hard yes/no, but is on a scale where a cloud service is serverless to a greater or lesser degree.
@@ -2240,7 +2240,7 @@ A serverless service could have all or most of the following characteristics:
 - Abstracts away the underlying infrastructure and bills are based on the execution of your business task
 - Can scale-to-zero meaning when resources are not in use they cost nothing
 
-Serverless implies pay-for-value, you don't pay for idel servers.
+Serverless implies pay-for-value, you don't pay for idle servers.
 
 An analogy could be energy rating labels. Some services are more serverless than others.
 
@@ -2268,7 +2268,7 @@ AWS Migration Acceleration Program (MAP) for Windows is a migration methodology 
 ### AWS Licence Manager
 Bring-your-own-licence (BYOL) is the process of reusing an existing software licence to run vendor software on a cloud vendor's computing service. BYOL allows companies to save money since they may have purchased the licence in bulk or at a time that provided a greater discount.
 
-Licence Mobility is Microsoft Volume Licencing to customers with eligibille server applications covered by active Microsoft Software Assurance (SA).
+Licence Mobility is Microsoft Volume Licencing to customers with eligible server applications covered by active Microsoft Software Assurance (SA).
 
 **AWS Licence Manager** is a service that makes it easier for you to manage your software licences from software vendors centrally across AWS and your on-premise environments.
 
@@ -2278,7 +2278,7 @@ AWS Licence Manager works with:
 - EC2 - dedicated instances, dedicated hosts, spot instances
 - RDS - only for Oracle databases
 
-For Microsoft Windows Server and Microsoft SQL Server licenses you generaly need to use a **dedicated host**.
+For Microsoft Windows Server and Microsoft SQL Server licenses you generally need to use a **dedicated host**.
 
 ## Logging
 ### Logging Services
@@ -2338,7 +2338,7 @@ An Alarm consists of:
 ### Log Streams
 A **Log Stream** represents a sequence of events from an application or instance being monitored.
 
-You cna create Log Streams manually but generally it's automatically done by the service you are using.
+You can create Log Streams manually but generally it's automatically done by the service you are using.
 
 Log Streams are named after the running instance. 
 
@@ -2350,7 +2350,7 @@ You can filter events to filter out events based on simple or pattern matching s
 ### Log Insights
 **CloudWatch Logs Insights** enable you to interactively search and analyze your CloudWatch log data and has the following advantages:
 - more robust filtering than using the simple filter events in a Log Stream
-- less burdensome than having to export logs to S3 and analyzer them via Athena
+- less burdensome than having to export logs to S3 and analyse them via Athena
 
 CloudWatch Logs Insights is commonly used via the console to do ad-hoc queries against log groups.
 
@@ -2432,21 +2432,21 @@ For example, EC2 Per-Instance Metrics include:
 ### Big Data and Analytics Services
 **Big Data** is a term used to describe massive volumes of structured or unstructured data that is so large it is difficult to move and process using traditional database and software techniques.
 
-**Amazon Athena** is a serverless interactive query service. It can take a bunch of CSV or JSOn files in an S3 bucket and load them into temporary SQL tables so you can run SQL queries. Use it when you want to query CSV or JSON files.
+**Amazon Athena** is a serverless interactive query service. It can take a bunch of CSV or JSON files in an S3 bucket and load them into temporary SQL tables so you can run SQL queries. Use it when you want to query CSV or JSON files.
 
-**Amazon CloudSearch** is a fully-managed full-text search service. Us eit when you want to add search to your website.
+**Amazon CloudSearch** is a fully-managed full-text search service. Use it when you want to add search to your website.
 
 **Amazon Elasticsearch Service** (ES) is a managed Elasticsearch cluster. Elasticsearch is an open-source full-text search engine. It's more robust than CloudSearch but requires more server and operational maintenance.
 
-**Amazon Elastic MapReduce** (EMR) is for data processing and analysis. It can be used for creating reports like Redshift, but is more suited when you need to transform unstructured data into structred data on the fly.
+**Amazon Elastic MapReduce** (EMR) is for data processing and analysis. It can be used for creating reports like Redshift, but is more suited when you need to transform unstructured data into structured data on the fly.
 
 **Kinesis Data Streams** is a real-time streaming data service. You create producers which send data to a stream, Multiple consumers can consume data within a stream. Use it for real-time analytics, click streams, ingesting data from a fleet of IoT devices.
 
-**Kinesis Firehose** is a serverless, simpler version of Data Streams. You pay on-demand based on how much data is consumed through the stream and oyu don't worry about the underlying servers.
+**Kinesis Firehose** is a serverless, simpler version of Data Streams. You pay on-demand based on how much data is consumed through the stream and you don't worry about the underlying servers.
 
 **Amazon Kinesis Data Analytics** allows you to run queries against data that is flowing through your real-time stream so you can create reports and analysis on emerging data.
 
-**Amazon Kinesis Video Streams** allows you to analyze or apply processing on real-time streaming video.
+**Amazon Kinesis Video Streams** allows you to analyse or apply processing on real-time streaming video.
 
 **Managed Kafka Service** (MSK) is a fully-managed Apache Kafka service. Kafka is an open-source platform for building real-time streaming data pipelines and applications. It's similar to Kinesis but with more robust functionalities.
 
@@ -2463,7 +2463,7 @@ For example, EC2 Per-Instance Metrics include:
 **AWS Data Exchange** is a catalogue of third-party datasets that you can download for free, subscribe to, or purchase, such as Covid-19 foot traffic data, IMDB TV and film data, historical weather data.
 
 ### Amazon QuickSight
-**Amazon QuickSight** is a Business Intelligence (BI) dashboad that allows you to ingest data from various AWS storage or database services to quickly visualize business data with minimal programming or data formula knowledge.
+**Amazon QuickSight** is a Business Intelligence (BI) dashboard that allows you to ingest data from various AWS storage or database services to quickly visualize business data with minimal programming or data formula knowledge.
 
 QuickSight uses SPICE (super-fast, parallel, in-memory calculation engine) to achieve blazing fast performance at scale.
 
@@ -2546,11 +2546,11 @@ The **Amazon Leadership Principles** are a set of principles used during decisio
 
 **Test systems at production scale**. Clone production env to testing. Tear down testing not in use to save money.
 
-**Automate to make architectural experimentation easier**, such as using CloudFormation wth ChangeSets, StackUpdate and Drift Detection.
+**Automate to make architectural experimentation easier**, such as using CloudFormation with ChangeSets, StackUpdate and Drift Detection.
 
-**Allow for evolutionary architectures**, such as CI/CD, rapid or nightly releases, Lanbdas deprecatng runtimes forcing you to evolve.
+**Allow for evolutionary architectures**, such as CI/CD, rapid or nightly releases, Lambdas deprecating runtimes forcing you to evolve.
 
-**Drive architecture using data**, such as CloudWatch, Cloud Trail automatically turned on collectng data.
+**Drive architecture using data**, such as CloudWatch, Cloud Trail automatically turned on collecting data.
 
 **Improve through game days**. Simulate traffic on production or purposely kill EC2 instances to see test recovery.
 
@@ -2563,37 +2563,29 @@ A pillar of the Well-Architected Framework is structured as follows:
 
 ### Operational Excellence
 **Perform operations as code**
-
 Apply the same engineering discipline you would to aplication code to your cloud infrastructure. By treating your operations as code, you can limit human error and enable consistent responses to events. This means Infrastructure as Code.
 
 **Make frequent, small, reversible changes**
-
 Design workloads to allow components to be upgraded regularly. This involves rollbacks, incremental changes, blue/green deployments, CI/CD.
 
 **Refine operations procedures frequently**
-
-Look for continuous opportunitiesto improve your operations. This might involve using game days to simulate traffic or event failure on your production workloads.
+Look for continuous opportunities to improve your operations. This might involve using game days to simulate traffic or event failure on your production workloads.
 
 **Anticipate failure**
-
 Perform post-mortems on system failures to better improve, write test code, kill production servers to test recovery.
 
 **Learn from all operational failures**
-
 Share lessons learned in a knowledge base for operational events and failures across your entire operation.
 
 ### Security
 **Implement a strong identity foundation**
-
-Implement Principle of Least Privilege (PoLP). USe cnetralized identity. Avoid long-lived credentials.
+Implement Principle of Least Privilege (PoLP). Use centralized identity. Avoid long-lived credentials.
 
 **Enable traceability**
-
 Monitor alert and audit actions and changes to your environment in real-time. Integrate log and metric collection and automate investigation and remediation
 
 **Apply security at all layers**
-
-Take a Defence in Depth approach with multiple security contriols for everything, such as edge network, load balancing instances, OS, application code
+Take a Defence in Depth approach with multiple security controls for everything, such as edge network, load balancing instances, OS, application code
 
 **Automate security best practices**
 
@@ -2602,25 +2594,20 @@ Take a Defence in Depth approach with multiple security contriols for everything
 **Keep people away from data**
 
 **Prepare for security events**
-
 Incident management systems and investigation policy and processes. Tools to detect, investigate, and recover from incidents.
 
 ### Reliability
 **Automate recovery from failure**
-
 Monitor Key Performance Indicators (KPIs) and trigger automation when threshold is breached.
 
 **Test recovery procedures**
-
 Test how your workload fails, and validate your recovery procedures. You can use automation to simulate different failures or to recreate scenarios that led to failures before.
 
 **Scale horizontally to increase aggregate system availability**
-
 Replace one large resource with multiple small resources to reduce the impact of a single failure on the overall workload. Distribute requests across multiple, smaller resources to ensure that they don't share a common point of failure.
 
 **Stop guessing capacity**
-
-In on-premise it takes a lot of guesswork to determien the elasticity of your workload demands. With cloud you don't need to guess how much you need because you can request the right size of resources on-demand.
+In on-premise it takes a lot of guesswork to determine the elasticity of your workload demands. With cloud you don't need to guess how much you need because you can request the right size of resources on-demand.
 
 **Manage change in automation**
 
@@ -2628,44 +2615,34 @@ Manage changes via Infrastructure as Code. This will allow for a formal process 
 
 ### Performance Efficiency
 **Democratize advanced technologies**
-
 Focus on product development rather than procurement, provisioning and management of services. Take advantage of advanced technology specialized and optimized for your use-case with on-demand cloud services.
 
 **Go global in minutes**
-
 Deploy yourt workload in multiple AWS regions around the world, which allows you to provide lower latency and a better experience for your customers at minimal cost.
 
 **Use serverless architectures**
-
 Serverless architectures remove the need for you to run and maintain physical servers for traditional compute activities. This removes the operational burden of managing physical servers, and can lower transactional costs because managed services operate at cloud scale.
 
 **Experiment more often**
-
 With virtual and automatable resources, you can quickly carry out comparative testing using different types of instances, storage, or configurations.
 
 **Consider mechanical sympathy**
-
 Understand how cloud services are consumed and always use the technology approach that aligns best with your workload goals. For example, consider data access patterns when you select database or storage approaches.
 
 ### Cost Optimization
 **Implement cloud financial management**
-
-Dedciate time and resources to build capability. Use cloud financial management and cost optimization tooling.
+Dedicate time and resources to build capability. Use cloud financial management and cost optimization tooling.
 
 **Adopt a consumption model**
-
 Pay only for the computing resources that you require and increase or decrease usage depending on business requirements.
 
 **Measure overall efficiency**
-
 Measure the business output of the workload and the costs associated with delivering it. Use this measure to know the gains you make from increasing output and reducing costs.
 
 **Stop spending money on undifferentiated heavy lifting**
-
 AWS does the heavy lifting of data center operations like racking, stacking and powering servers. It also removes the operational burden of managing OSes and applications with managed services. This allows you to focus on your customers and business projects rather than on IT infrastructure.
 
 **Analyze and attribute expenditure**
-
 The cloud makes it easier to accurately identify the usage and costs of systems, which then allows transparent attribution of IT costs to individual workload owners. This helps measure return on investment (ROI) and gives workload owners an opportunity to optimize their resources and reduce costs.
 
 ### AWS Well-Architected Tool
@@ -2755,7 +2732,7 @@ It has import instructions for:
 2. Upload your virtual image to S3
 3. Use the AWS CLI to import your image. It will generate an Amazon Machine Image (AMI)
 
-### Database Migration Serivce
+### Database Migration Service
 **AWS Database Migration Service** (DMS) allows you to quickly and securely migrate one database to another. DMS can be used to migrate your on-premise database to AWS.
 
 It's very flexible and can convert between SQL and NoSQL databases.
@@ -2763,7 +2740,7 @@ It's very flexible and can convert between SQL and NoSQL databases.
 **AWS Schema Conversion Tool** is used in many cases to automatically convert a source database schema to a target database schema. Each migration path requires some research since not all combination of sources and targets are possible.
 
 ### Cloud Adoption Framework (CAF)
-The AWS Cloud Adoption Framework is a whitepaper to help you plan your migratiomn from on-premise to AWS.
+The AWS Cloud Adoption Framework is a whitepaper to help you plan your migration from on-premise to AWS.
 
 At the highest level, the CAF organizes guidance into six focus areas:
 
@@ -2945,7 +2922,7 @@ Other checks include:
 	- VPCs
 
 ### Service Level Agreements(SLAs)
-A **Service Level Agreement** (SLA) is a formal commitment about  the expected level of service between a customer and a provider. When a service level is not met and the customer meets their obligations under the SLA, the customer will be eligible to receive compensation, such as financialor service credits.
+A **Service Level Agreement** (SLA) is a formal commitment about  the expected level of service between a customer and a provider. When a service level is not met and the customer meets their obligations under the SLA, the customer will be eligible to receive compensation, such as financial or service credits.
 
 A **Service Level Indicator** (SLI) is a metric that indicates what measure of performance a customer is receiving at a given time. A SLI metric could be uptime, performance, availability, throughput, latency, error rate, durability, or correctness.
 
@@ -2959,8 +2936,7 @@ A **Service Level Objective** (SLO) is the objective that the provider has agree
 AWS offers a number of Service Level Agreements, such as:
 
 **DynamoDB's SLA**
-
-AWS will use commercially reasonable efforts to make DynamoDB avalable with a Monthly Uptime Percentage for each AWS regon, during any monthly billing cycle, of (a) at least 99.999% if the Global Tables SLA applies, or (b) at least 99.99% if the Standard SLA applies.
+AWS will use commercially reasonable efforts to make DynamoDB available with a Monthly Uptime Percentage for each AWS region, during any monthly billing cycle, of (a) at least 99.999% if the Global Tables SLA applies, or (b) at least 99.99% if the Standard SLA applies.
 
 In the event DynamoDB des not meet the Service Commitment, you will be eligible to receive a Service Credit.
 
@@ -2974,7 +2950,6 @@ In the event DynamoDB des not meet the Service Commitment, you will be eligible 
 ||<95%|100%|
 
 **Compute SLAs**
-
 Compute SLAs cover servces such as EC2, EBS, ECS, EKS.
 
 AWS makes two SLA commitments for the included services:
@@ -2991,10 +2966,9 @@ AWS makes two SLA commitments for the included services:
 ||<95%|100%|
 
 **RDS SLAs**
-
 AWS will use commercially reasonable efforts to make Multi-AZ instances available with a Monthly Uptime Percentage of at least 99.95%  during any monthly billing cycle.
 
-In the event that Amazon RDS does not meet the Monthly Uptime Percentage committment, you will be eligible to receive a  service credit.
+In the event that Amazon RDS does not meet the Monthly Uptime Percentage commitment, you will be eligible to receive a  service credit.
 
 | Monthly Uptime Percentage| Service Credt Percentage|
 |--|--|
@@ -3060,7 +3034,7 @@ AWS Promotional Credits are equivalent to USD on the AWS platform. Credits can b
 AWS Credits generally have an expiry date attached to them. Credits can be used for most services but there are exceptions, such as purchasing a domain via Route53.
 
 ### AWS Partner Network
-The AWS Partenr Network (APN) is a global partner program for AWS. Joining the APN will open your organization up to business opportunities and gives access to exclusive training and marketing events.
+The AWS Partner Network (APN) is a global partner program for AWS. Joining the APN will open your organization up to business opportunities and gives access to exclusive training and marketing events.
 
 When joining the APN you can either be a:
 - Consulting Partner - you help companies utilize AWS
@@ -3068,7 +3042,7 @@ When joining the APN you can either be a:
 
 A partner belongs to a specific tier: Select, Advanced, or Premier. Different tiers have different annual fees and certification requirements. 
 
-You can have unique speaking opportunities in thw official AWS marketing channels, such as blogs or webinars.
+You can have unique speaking opportunities in the official AWS marketing channels, such as blogs or webinars.
 
 Being part of the APN is a requirement to be a Sponsor with a vendor booth at AWS events.
 
@@ -3188,24 +3162,24 @@ A **Cipher** is an algorithm that performs encryption or decryption. Cipher is s
 Ciphertext is the result of encryption performed on plaintext via an algorithm.
 
 ### Cryptographic Keys
-A **Cryptographic Key** is a variable used in conjunction wth an encryption algorithm to encrypt or decrypt data.
+A **Cryptographic Key** is a variable used in conjunction with an encryption algorithm to encrypt or decrypt data.
 
 Symmetric Encryption is when the same key is used for encoding and decoding, such as with Advanced Encryption Standard (AES).
 
-Asymmetric Encryption is when two keys are used. One to encode and one to decode, such as wth Rivest-Shamir-Adleman (RSA).
+Asymmetric Encryption is when two keys are used. One to encode and one to decode, such as with Rivest-Shamir-Adleman (RSA).
 
 ### Hashing and Salting
-A **Hashing Function** is a function that accepts arbitrarily-sized values and maps them to a fixed-size data structure. Hashing can redcue the size of the stored value.
+A **Hashing Function** is a function that accepts arbitrarily-sized values and maps them to a fixed-size data structure. Hashing can reduce the size of the stored value.
 
 Hashing is a one-way process and is deterministic, it always returns the same output for the same input.
 
-Hashing functions are used to storoe passwords in a database so that the password doesn't reside in plaintext format.
+Hashing functions are used to store passwords in a database so that the password doesn't reside in plaintext format.
 
-To authenticate a user, when a user inputs their password, it is hashed and the hash is compared to the stred hash. If they match, the user has successfully logged in.
+To authenticate a user, when a user inputs their password, it is hashed and the hash is compared to the stored hash. If they match, the user has successfully logged in.
 
-Popular hashing functions include MD5, SHA256, and Bcrypt. If an attacker knows what function you are using and steals your database, they coul enumerate a dctionary of passwords to determine the password.
+Popular hashing functions include MD5, SHA256, and Bcrypt. If an attacker knows what function you are using and steals your database, they could enumerate a dictionary of passwords to determine the password.
 
-A **Salt** is a random string not known to the attacker that the hash function accepts to mitigate the determnistic nature of hashing functions.
+A **Salt** is a random string not known to the attacker that the hash function accepts to mitigate the deterministic nature of hashing functions.
 
 ### Digital Signatures and Signing
 A **Digital Signature** is a mathematical scheme for verifying the authenticity of digital messages or documents.
@@ -3264,7 +3238,7 @@ Permitted Services:
 
 Prohibited activities:
 - DNS zone walking via Route 53 hosted zones
-- * Subject to the DDoS Simulation Testing Policy
+- Subject to the DDoS Simulation Testing Policy
 	- Denial of Service
 	- Distributed Denial of Service
 	- Simulated DoS, Simulated DDoS
@@ -3291,7 +3265,7 @@ AWS Inspector runs a security benchmark against specific EC2 instances. You can 
 One popular benchmark is by CIS which has 699 checks.
 
 ### Distributed Denial of Service (DDoS)
-**Distributed Denial of Serivice** is a malicious attempt to disrupt normal traffic by flooding a website with large amounts of fake traffic.
+**Distributed Denial of Service** is a malicious attempt to disrupt normal traffic by flooding a website with large amounts of fake traffic.
 
 Cloud Service Providers' networks generally have built-in DDoS protection.
 
@@ -3338,7 +3312,7 @@ An **Intrusion Detection System** (IDS) / **Intrusion Protection System** (IPS) 
 It will alert you of findings and you can automate a response via CloudWatch Events or with third-party services.
 
 ### Amazon Macie
-**Macie** is a fully-managed service that continuously monitors S3 data access activity for anomalies and generates detailed alerts when it detects risk of unauthorized access or inadvertant data leaks.
+**Macie** is a fully-managed service that continuously monitors S3 data access activity for anomalies and generates detailed alerts when it detects risk of unauthorized access or inadvertent data leaks.
 
 Macie works by using machine learning to analyze your CloudTrail logs.
 
@@ -3498,7 +3472,7 @@ It can:
 
 It's good for delayed tasks such as queueing up emails.
 
-Comparable third-party sercvices are RabbitMQ and Sidekiq.
+Comparable third-party services are RabbitMQ and Sidekiq.
 
 ### SNS vs SES vs PinPoint vs Workmail
 All these services send emails.
@@ -3539,7 +3513,7 @@ AWS Trusted Advisor gives a holistic view of recommendations across multiple ser
 
 You should use MFA on your root account when using Trusted Advisor.
 
-### Connect-named Services
+### Connect-Named Services
 Despite their names, these services are not related.
 
 **Direct Connect** is a dedicated fibre optic connection from your datacenter to AWS.
@@ -3552,12 +3526,12 @@ If you need a secure connection, you need to apply an AWS VPN connection on top 
 
 You get a toll-free number, it accept inbound and outbound calls, sets up automated phone systems. It also offers interactive voice systems (IVS).
 
-**Media Connect** is a new version of Leastic Transcoder. It converts videos to diferent video formats, applies watermarks, and can insert clips into videos.
+**Media Connect** is a new version of Elastic Transcoder. It converts videos to different video formats, applies watermarks, and can insert clips into videos.
 
 ### Elastic Transcoder vs MediaConvert
 Both services transcode videos to streaming formats.
 
-Elastic Tarnscoder is the older service. Some legacy customers still use it for APIs or workflows not available on MediaConvert.
+Elastic Transcoder is the older service. Some legacy customers still use it for APIs or workflows not available on MediaConvert.
 
 AWS Elemental MediaConvert is a more robust transcoding service that can perform various operations during transcoding. It also has a more fully-featured UI.
 
