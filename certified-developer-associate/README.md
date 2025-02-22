@@ -646,3 +646,89 @@ Resources:
 
 When you give a template to CloudFormation, it creates a Stack, containing all the logical resources that the template tells it to contain. For any logical resources in the stack, CloudFormation makes a corresponding physical resource in your AWS account. It is CloudFormation's job to keep the logical and physical resources in sync. If you delete a stack, its logical resources are deleted, which causes CloudFormation to delete the matching physical resources.
 
+When you upload a template to CloudFormation, it uploads the template directly to an S3 bucket (prefixed with cf) that it creates automatically. CloudFormation functions, such as `!Ref` or `!GetAtt`, lets you reference other parts of the template.
+
+### CloudWatch
+CloudWatch is a core supporting service in AWS that provides metrics, logs and event management services. 
+
+CloudWatch collects and manages operational data. It has three core components:
+- **Metrics** - such as CPU usage from AWS products, apps, on-premises. CloudWatch is a public service and can gather metrics from inside or outside AWS. Some metrics are gathered natively by the product. Some types of metrics need a CloudWatch Agent, for example monitor things not otherwise exposed to AWS.
+- **CloudWatch Logs** - almost anything which is logged can be ingested. Again, a CloudWatch Agent is needed for logs from outside AWS.
+- **CloudWatch Events** - an event hub, for example generating events if an EC2 instance is created, started, or stopped, or generating an event to do something at a certain time. Events can, for example, be published to Simple Notification Service (SNS) or trigger auto-scaling.
+
+CloudWatch gives you a UI, CLI and API to access the data it collects.
+
+A Namespace is a container for monitoring data to keep things organized. All AWS data goes into an AWS namespace, `AWS/service-name`, such as `AWS/EC2`. This naming is reserved and you cannot use it.
+
+A Metric is a collection of related data points in a time ordered structure, such as CPU usage, Network In/Out, Disk I/O. A metric is not for a specific server. A metric might be receiving CPU utilization data from lots of EC2 instances.
+
+Datapoints are in simple terms a timestamp and a value. For example, every time a server measures its CPU utilization and sends it to CloudWatch, each measurement is a datapoint. 
+
+Dimensions are used to separate datapoints for different things or perspectives within the same metric, such as which EC2 instance is sending CPU utilization metrics. 
+
+```
+Name = InstanceId, Value= 1-xxxxxxxxx
+Name = InstanceType, Value = t3.small
+```
+
+CloudWatch lets you take actions based on metrics using Alarms. Alarms are created and linked to a specific metric. You configure the alarm so it will take an action based on that metric. The alarm can be in the OK state and can move to the ALARM state if specified criteria are met. Based on this, you can define an action to be taken, such as sending a notification to an SNS topic. Alarms can also exist in a third state, INSUFFICIENT_DATA, before they have collected enough data to know if they should be in an OK or ALARM state.
+
+### Shared Responsibility Model
+The Shared Responsibility Model is how AWS provide clarity around which areas of system security are theirs and which are owned by the customer.
+
+AWS are responsible for the security **of** the cloud. You, as the customer, are responsible for security **in** the cloud. 
+
+AWS are responsible for the hardware and global infrastructure; compute, storage, database and networking components; and any software that assists those services. You are responsible for the OS upwards: client-side data encryption, server-side encryption, networking traffic protection; OS, network and firewall configuration; applications, identity and access management, customer data.
+
+### High-Availability vs Fault-Tolerance vs Disaster-Recovery
+High Availability (HA) - "aims to ensure an agreed level of performance, usually uptime, for a higher than normal period". HA doesn't mean that a system never fails or that a user never experiences any outages.
+
+A highly available system is one designed to be online and providing services as often as possible. It is designed so that when it fails, its components can be replaced or fixed as quickly as possible, often using automation to bring systems back into service. HA is about maximising a system's online time.
+
+System availability is generally expressed in the form of a percentage of uptime. So 99.9% (3 nines) means you can only have 8.77 hours of downtime per year. 99.999% (5 nines) would only allow for 5.26 minutes of downtime.
+
+If an application has to fail over to a standby server, there might be some small user disruption (such as, having to re-log in). Some user disruption is fine as long as outages are minimized.
+
+HA has costs required to implement it. It needs some design decisions to be made in advance and it requires a certain level of automation.
+
+Fault Tolerance (FT) - "is the property that enables a system to continue operating properly in the event of the failure of some (one or more) of its components". The system should continue to operate properly even while those faults are present and being fixed. Fault tolerant systems are designed to work through failure with no disruption.
+
+A fault tolerant system might have two servers in an active-active configuration. If one fails, the system remains fully functional.
+
+HA is about maximising uptime, FT is about operating through failure. FT is much more difficult, complex and expensive to be implemented. Mission or life critical systems need to be fault tolerant.
+
+Disaster Recovery (DR) - "a set of policies, tools and procedures to enable the recovery or continuation of vital technology infrastructure and systems following a natural or human-induced disaster". DR is what happens when high availability or fault tolerance fail.
+
+A good DR system involves regular backups stored at a second location from the main site as your systems. All your processes and logins need to be available at your standby site to minimize disruption. Ideally you want to run periodic DR testing.
+
+High availability - minimize any outages
+Fault tolerance - Operate through faults
+Disaster Recovery - Used when these don't work
+
+### Route53
+Route53 is AWS's managed DNS product. It allows you to register domains and can host zone files for you on managed namespace servers.
+
+Route53 is a global service with a single database. The data Route53 manages is distributed globally and replicated between regions, making it globally resilient.
+
+Route53 has relationships with all of the main domain registries. When a  domain is registered, Route53 checks with the registry for that top level domain if the domain is available. Then Route53 creates a zone file for the domain being registered. Route53 also allocates (usually four) name servers for this zone. It then liaises with the registry and adds these name server records into the zone file for the top level domain, using name server records.
+
+Route53 provides DNS zones as well as hosting for those zones. Basically, DNS as a service. It lets you create and manage zone files, called hosted zones because they're hosted on AWS managed name servers. From Route53's perspective, every hosted zone also has a number of allocated managed name servers.
+
+A hosted zone can be public, with the data accessible on the public internet. The name servers for a public hosted zone live in the AWS public zone.
+
+A hosted zone can also be private, linked to one or more VPCs and only accessible within those VPCs. You might use this if you want to host sensitive DNS records.
+
+#### DNS Record Types
+Nameserver Records (NS) allow delegation to happen in DNS.
+
+A and AAAA Records map hostnames to IP addresses. An A record maps onto an IPv4 address. An AAAA maps onto an IPv6 address. You will normally create both with the same name.
+
+CNAME Records let you create the equivalent of DNS shortcuts. For example, CNAMEs for mail, FTP and web services could all point to an A record. CNAMEs cannot point to an IP address, only to another names.
+
+MX Records are how a server can find the mail server for a specific domain. They have two main parts: priority and value. The value can point to a host in the same zone (`mail`) or to a fully qualified domain (`mail.other.domain`). Lower values for the priority field mean higher priority.
+
+TXT Records allow you to add arbitrary text to a domain, for example to prove domain ownership.
+
+Time to Live (TTL) can be set on DNS records. It's a numerical value in seconds. DNS values are cached as non-authoritative answers. TTL means that updated records will get picked up when the cache expires. When planning on changing DNS records, it's advisable to lower the caching TTL well in advance to limit delays in the new DNS records getting picked up.
+
+## IAM, Accounts, and AWS Organizations 
