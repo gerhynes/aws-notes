@@ -731,4 +731,216 @@ TXT Records allow you to add arbitrary text to a domain, for example to prove do
 
 Time to Live (TTL) can be set on DNS records. It's a numerical value in seconds. DNS values are cached as non-authoritative answers. TTL means that updated records will get picked up when the cache expires. When planning on changing DNS records, it's advisable to lower the caching TTL well in advance to limit delays in the new DNS records getting picked up.
 
-## IAM, Accounts, and AWS Organizations 
+## IAM, Accounts, and AWS Organizations
+### IAM Identity Policies
+IAM policies are a type of policy which get attached to identities (users, groups and roles) inside AWS.
+
+An IAM policy is just a set of security statements to AWS. It grants or denies access to AWS products and features to any identity which uses that policy.
+
+At a high level, a policy document is one or more Statements, which grant or deny permissions to AWS services, in a JSON document. When an identity attempts to access AWS resources, that identity needs to prove who it is to AWS. Once authenticated, that identity is known as an authenticated identity.
+
+An identity can have multiple policies and each policy can have multiple Statements in it. AWS has a collection of all of the statements which apply to a given identity.
+
+A Statement is made up of:
+
+- A Statement ID (Sid), an optional field, which lets you identify a statement and what it does, such as `"FullAccess"` or `"DenyCatGifsBucket"`. It's best practice to always use these.
+- Action and Resource: a statement only applies if the interaction you're having with AWS match the Action and Resource. The format for action is `service:operation`, such as `["s3:*]"`. `*` can match any service operations. You can specify individual resources or lists of resources: `["arn:aws:s3::catgifs"]`
+- Effect: either Allow or Deny. Statements can combine these. You can be allowed certain actions on a resource, but not others, or denied all actions on a resource, except specific exceptions. For example, allow any action on any S3 bucket and then deny access to a small portion of S3.
+
+Priorities (Deny, Allow, Deny):
+1. The first priority are explicit denies. It overrules anything else.
+2. The second priority are explicit allows. Overruled by explicit deny.
+3. If explicit allows or denies aren't defined then the default implicit deny takes effect.
+
+With the exception of the account root user, AWS identities start off with no access to any AWS resources.
+
+Multiple policies can apply to the same identity. An individual developer, the group they're in, and the resource they're trying to access may all have policies associated with them.
+
+When a given identity accesses a resource, AWS collects all of the policy statements which apply and applies the Deny, Allow, Deny rule to them.
+
+There are two main types of policies: inline and managed policies. They are the same thing, the difference is how they're managed. Designing a policy and assigning that JSON individually on separate accounts is an inline policy. The policy becomes isolated bits of JSON. This is not best practice. Managed policies are created as their own object and then attached to any identities that you want to have those access rights.
+
+Managed policies are reusable and have lower management overhead. They should be used for the default operational rights in your business. If you change the JSON in a managed policy, it immediately impacts all of the identities it's attached to.
+
+There are two main types of managed policies: AWS managed policies, created and managed by AWS, and customer managed policies, which you can define to match your requirements.
+
+Inline policies are used for exceptions to normal rights for special circumstances.
+
+### IAM Users and ARNs
+IAM Users are an identity used for anything requiring long-term AWS access, such as humans, applications, or service accounts.
+
+If you can picture one named thing that needs to access AWS, then 99% of the time the correct identity to select is an IAM user.
+
+A Principal is an entity trying to access an AWS account. Principals can be individual people, computers services, or a group of any of those things. For a principal to be able to do anything, it needs to authenticate and be authorized.
+
+A principal makes requests to IAM to interact with resources. To be able to interact with resources, it needs to authenticate against an identity within IAM. Authentication for IAM users is done using either username and password, or access keys.
+
+Once the principal goes through the authentication process, the principal is now known as an authenticated identity. AWS then knows which policies apply to this identity. Once an authenticated identity tries to access an AWS service, AWS checks that that identity is authorized to do so.
+
+Amazon Resource Names (ARN) uniquely identify resources within any AWS accounts. ARNs let you unambiguously refer to a single resource, or if needed a group of resources using wildcards.
+
+ARNs are used in IAM policies, which are generally attached to identities. The format is usually:
+
+```
+arn:partition:service:region:account-id:resource-id
+arn:partition:service:region:account-id:resource-type/resource-id
+arn:partition:service:region:account-id:resource-type:resource-id
+```
+
+ARNs are collections of fields split y colons. If you see a double colon, it means that nothing is between it. For example, S3 buckets need to be globally unique, so `region` isn't included.
+
+The first example ARN below references an actual S3 bucket. Use this to allow or deny access to a bucket and any actions on this bucket.
+
+The second ARN below references anything in the bucket, but not the bucket itself.
+
+Actions that operate at a bucket level, or that create buckets, would need the first ARN. Actions that work on objects would need the second ARN.
+
+Sometimes, creating a policy that allows a set of actions will require both ARNs.
+
+```
+arn:aws:s3:::catgifs
+arn:aws:s3:::catgifs/*
+```
+
+For the exam:
+- you can only have 5,000 IAM Users per account
+- IAM user can be a member of at most 10 groups
+- This has system design impacts
+
+If you have a system that requires more than 5,000 identities, then you can't use one IAM user for each identity. This might be a limit for large organizations, or internet-scale applications. You can use IAM roles or Identity Federation to get around this.
+
+### IAM Groups
+IAM Groups are containers for IAM Users. You can't log into IAM groups and they have no credentials of their own. They exist to make organizing large sets of IAM users easier.
+
+An IAM user can be a member of multiple IAM groups.
+
+Groups provide two main benefits:
+- They allow for effective administration-style management of users
+- Groups can have policies (both inline and managed) attached to them.
+
+Users in groups receive the policies of all groups they are in. They can also have their own inline or managed policies. AWS will merge them into a set of permissions.
+
+There's no explicit limit on the number of users in a single IAM group. You could have all 5,000 of an account's users be in a single group. There isn't a built-in all-users group in IAM, you would need to create and manage one yourself.
+
+Groups do not nest. You can't have groups within groups. IAM groups contain users and can have permissions attached. That's it.
+
+There is a limit of 300 groups per account but this can be increased with a support ticket.
+
+Groups are not a true identity. They cannot be referenced as a principal in a policy. They cannot be referenced using an ARN, unlike users or resources. A Resource Policy cannot grant access to IAM groups. It can grant access to users, but not the group they're in.
+
+Groups just exist to collect users and allow permissions to be assigned to those groups, which the users then inherit
+
+### IAM Roles
+A Role is one type of identity which exists inside an AWS account. The other type are IAM Users.
+
+A Role is generally best suited to be used by an unknown number or multiple principals. This could be multiple users inside the same AWS account. Or it could be humans, applications, or services inside or outside your AWS account who make use of that role. If you can't identify the number of principals which use an identity, it could be a candidate for an IAM Role. Or if you have more than 5,000 principals.
+
+Roles are generally used on a temporary basis. Something becomes that role for a short period of time and then stops.
+
+A Role represents a level of access inside an AWS account. It is something that can be used, short term, by other identities. Identities assume a role for a short time, use the permissions that role has, and then they stop being that role.
+
+IAM Roles have two types of policies, which can be attached:
+- Trust Policy
+- Permissions Policy
+
+The Trust Policy controls which identities can assume that role. The trust policy can reference identities in the same account and in other AWS accounts.  It can even allow anonymous usage of that role, or other types of identities, such as Facebook or Google.
+
+If a role gets assumed by something that is allowed to assume it, then AWS generates temporary security credentials and these are made available to the identity which assumed the role. Temporary credentials are like access keys, but instead of being long-term, they are time-limited. Once they expire, the identity will need to renew them by re-assuming the role. At that point, new credentials are generated and given to the identity again. 
+
+These temporary credentials will be able to access whatever AWS resources are specified within the permission's policy. Every time the temporary credentials are sued, the access is checked against this permissions policy. If you change the permissions policy, the permissions of those temporary credentials also change.
+
+Roles are real identities, and, just like IAM users, roles can be referenced within resource policies.
+
+Roles are used within AWS organizations to allow us to login to one account in the organization and access different accounts without having to login again.
+
+The role's temporary credentials are created by Secure Token Service (STS) using the operation `sts:AssumeRole`.
+
+#### When to use IAM Roles
+One of the most common uses of roles within the same AWS account are **for AWS services themselves**. AWS services operate on your behalf and they need access rights to perform certain actions.
+
+For example, you can create an IAM role, known as a Lambda execution role, with a trust policy that trusts the Lambda service. This means that Lambda is allowed to assume that role whenever a function is executed. This role has a permissions policy which grants access to AWS products and services. 
+
+When the function runs, it uses the `sts:AssumeRole` operation and then the Secure Token Service generates temporary security credentials. The runtime environment that the Lambda function runs in can use these temporary credentials to access AWS resources based on whatever permissions the role's permissions policy has.
+
+If you didn't use a role, you would need to hardcode permissions into the Lambda function by explicitly providing access keys. This would be a security risk and would also cause problems if you ever need to change/rotate those keys.
+
+Roles are also useful for **emergency or out-of-the-usual situations**. For example a support team might have read-only access to a customer's AWS resources, while anything more risky is handled by a more senior technical team. In an emergency, the support team might be able to assume an emergency role if absolutely required. This access will be logged.
+
+Roles are also useful when adding AWS **into an existing corporate environment**. There might be an existing identity provider, such as Microsoft Active Directory. Roles can be used to re-use existing identities inside AWS. External accounts or external identities cannot access AWS resources directly. Instead, you allow the external account to assume an IAM role. If a business has more than 5,000 accounts then they can't simply create an IAM user for each account.
+
+You might also use roles if **designing the architecture for a popular web/mobile application**, that is one with millions of users. Most mobile applications allow you to sign in using a web identity, such as Google or Facebook. Through Web Identity Federation, users of the app can use roles to access AWS resources, such as saving their data to DynamoDB.
+
+This has advantages:
+- There are no AWS credentials stored in the app
+- It uses existing accounts that customers probably already have
+- It can scale to hundreds of millions of users
+
+Roles can be used cross-account to give access to individual resources, such as S3, or to a whole account. In a scenario where you are working with a partner account, need to access resources in that account, and have thousands of identities in your account, a role in the partner account is the best approach.
+
+#### Service-linked Roles and PassRole
+A Service-linked Role is an IAM role linked to a specific AWS service. They provide a set of permissions predefined by the service, providing permissions that a service needs in order to interact with other AWs services on your behalf.
+
+Service-linked Roles might be created by the service itself, or the service might allow you to create the role during setup or within IAM.
+
+The key difference with normal roles is that you can't delete a service-linked role until it's no longer required by that AWS service.
+
+In the policy the resource is identified by `RESOURCE_NAME.amazonaws.com`. The formatting of this differs by service and is case sensitive.
+
+Role separation is where you might give one group of people the ability to create roles and another group of people the ability to use them. PassRole permissions allow you to pass an existing role into an AWS service. For example, you could configure a service with a role that has already been created by the security team. This is the same type of architecture as when you use a pre-created role, for example with a CloudFormation stack.
+
+### Security Token Service (STS)
+Security Token Service (STS) generates temporary credentials whenever the `sts:AssumeRole` operation is used.
+
+When you assume an IAM Role, you use the STS AssumeRole call and in doing so gain access to temporary credentials which can be used by the identity which assumes the role.
+
+When you role switch in the console UI, you're assuming a role in another AWS account and using STS to gain access to these temporary credentials.
+
+The temporary credentials generated by STS are similar in many ways to long-term access keys. They contain an access key ID (the public part) and a secret access key (the private part). Importantly, these credentials expire and they don't belong to the identity which assumes the role.
+
+The access that these credentials provide can be limited. By default, the authorization is based on the permissions policy of the role, but a subset of that can be granted to the temporary credentials. So they don't need to have the full range of permissions that the permissions policy on a role provides.
+
+The credentials can be used to access AWS resources, just like with long-term credentials.
+
+Temporary credentials are requested by another identity, either an AWS identity such as an IAM user via an IAM role, or an external identity such as a Google login (web identity federation).
+
+The trust policy controls who can assume the role. Conceptually it is like a wall around the role, only allowing certain people access to that role. If an identity isn't allowed to assume a role, based on the trust policy, `AssumeRole` fails.
+
+`sts:AssumeRole` calls are made by an existing identity, either AWS or external (through federation). `AssumeRole` calls are made via the STS service. STS checks the role's trust policy. If the identity is allowed then it reads the permissions policy, which is also attached to the role. The permissions policy controls what is allowed or denied inside AWS.
+
+STS generates temporary credentials which can access AWS resources until expiration. They authorize access based on the permissions policy. If the permissions policy changes, the permissions that the credentials have access to also change.
+
+Temporary credentials include:
+- AccessKeyId - unique id of credentials
+- Expiration - date and time of credential expiration
+- SecretAccessKey - used to sign requests
+- SessionToken - unique token which must be passed with all requests
+
+Credentials are returned to the identity requesting them. Another `sts:AssumeRole` call is required when the credentials expire.
+
+You are using STS if you:
+- assume a role within an AWS account
+- role switch between accounts using the console UI
+- perform cross-account access using a role
+
+### AWS Organizations
+AWS Organizations is a product which allows larger businesses to manage AWS accounts in cost effective way with little to no management overhead.
+
+Without AWS Organizations each of the hundreds of AWS accounts a large business has would have their own pool of IAM users and their own payment method.
+
+You use a standard AWS account to create an AWS Organization. The organization doesn't exists **in** this account. The account used to create the organization then becomes the **Management Account** for the organization. Using this management account you can invite other existing standard AWS accounts into the organization. The other accounts need to approve the invites to join the organization. When standard accounts join an organization they become **Member Accounts** of that organization.
+
+The structure within AWS Organizations is hierarchical. At the top of the tree is the Organization Root, a container for AWS accounts. As well as containing accounts, the Organizational Root can also contain other containers, known as Organizational Units (OUs). OUs can contain member accounts or other OUs.
+
+One important feature of AWS Organizations is consolidated billing. The individual billing methods are removed from the member accounts in the organization. Billing is passed though to the management account, sometimes referred to in this context as the Payer Account. You get a single monthly bill contained within the management account that covers all member accounts of the organization.
+
+Consolidated billing removed financial admin overhead for larger businesses. Also, certain AWS services get cheaper the more usage you have and for certain services you can pay in advance in exchange for cheaper rates. When using organizations these benefits are pooled. 
+
+AWS organizations also feature a service called service control policies (SCPs) and this lets you restrict what AWS accounts within the organization can do.
+
+As well as being able to invite existing accounts into an organization, you can also create new accounts directly within it. You just need a valid unique email address for this account you want to create within the organization.
+
+Using an AWS Organization changes what is best practice in terms of user logins and permissions. With organizations you don't need to have IAM users inside every dingle AWS account. Instead, IAM roles can be used to allow IAM users to access other AWS accounts.
+
+Larger businesses will often keep the management account of the organization clean and have a separate account dedicated to handling logins. They might also use Identity Federation to integrate their existing identities with this single login/identities account.
+
+From the identities account you can role switch into other accounts within the organization. Behind the scenes, this is assuming a role which is inside these other AWS accounts.
