@@ -944,3 +944,132 @@ Using an AWS Organization changes what is best practice in terms of user logins 
 Larger businesses will often keep the management account of the organization clean and have a separate account dedicated to handling logins. They might also use Identity Federation to integrate their existing identities with this single login/identities account.
 
 From the identities account you can role switch into other accounts within the organization. Behind the scenes, this is assuming a role which is inside these other AWS accounts.
+
+### Service Control Policies
+Service Control Policies (SCPs) are a feature of AWS organizations which can be used to restrict AWS accounts. 
+
+They are JOSN documents that can be attached to the organization as a whole, by attaching them to the root container, or they can be attached to one or more organizational units. They can even be attached to individual AWS accounts.
+
+SCPs inherit down the organization tree. If they're attached to the organization as a whole, then they attach all accounts in the organization. If they're attached to an organizational unit, they impact all accounts inside that unit. If they are attached directly to one or more accounts, then they only affect those specific accounts. 
+
+The management account is unaffected by any SCPs. Since the management account can't be restricted by SCPs, it's good to avoid using the management account for any AWS resources.
+
+Service Control Policies are account permissions boundaries. They limit what the account (including, by extension, what the account root user) can do. You might apply a SCP to prevent any usage of an account outside of a known region, such as us-east-1. SCPs don't grant any permissions, they just limit what permissions can be assigned.
+
+You can use Service Control Policies in two ways: you can block by default and then allow certain service via an allow list. Or you can allow by default and then block certain services via a deny list. The default is a deny list meaning that in the default implementation SCPs have no effect until you add restrictions.
+
+Service Control Policies follow the Deny-Allow-Deny priority rules. Explicit denies always win over allows. A benefit of using a deny list is that as AWS adds products and services, the list constantly expands to cover these new services without much admin overhead.
+
+Implementing allow lists is a two part process: first removing the AWS full access policy and then adding any services which you want to allow into the new policy. Allow lists require more admin overhead since you need to explicitly add every service you want to grant access to.
+
+Only permissions which are allowed within identity policies in the account and are allowed by a service control policy are actually active. Your effective permissions for identities within an account are the overlap between any Identity Policies and any applicable SCPs.
+
+### CloudWatch Logs
+CloudWatch Logs is a public service (usable from AWS or on-prem) which allows you to store, monitor and access logging data. 
+
+It has built-in integrations with other AWS services such as EC2, VPC Flow Logs, Lambda, CloudTrail, and Route53. These services can store data directly inside the product with security provided by IAM roles or services roles. Outside AWS, or for logging custom application or OS logs, you can use the Unified CloudWatch Agent. You can also use the development kits for AWS and implement logging to CloudWatch Logs directly in your application.
+
+CloudWatch Logs can generate metrics based on logs. This is known as metric filters.
+
+Data is injected into CloudWatch Logs as log events (timestamp and message). Log events are stored inside log streams. Log streams are a sequence of log events from the same source. Log groups are containers for multiple log streams for the same type of logging. Log groups are also where configuration settings (such as permissions and retention settings) are stored. 
+
+Metric filters are also defined on log groups. They watch log streams for specific events. When triggered these filters increment metrics which can have associated alarms.
+
+### CloudTrail
+CloudTrail is a product which logs API actions that affect AWS accounts. Almost anything which can be done to an AWS account is logged by this product. 
+
+API calls / account activities are logged as CloudTrail Events. By default, the last 90 days of activity is stored in Event History. To customize the service you create one or more Trails.
+
+CloudTrail Events can be Management Events, Data Events, or Insight Events. Management Events provide information about management operations performed on resources in your AWS account. Data Events contain information about resource operations performed on or in a resource. By default, CloudTrail only logs management events because data events are often of a much higher volume. 
+
+A CloudTrail trail is the unit of configuration within CloudTrail. A trail logs events for the AWS region it's created in. You can create a trail that is one-region or a trail can be set to all regions. If AWS adds any new regions, an all-region trail will be automatically updated.
+
+Most services log events in the region where the event occurred. A small number of global services (such as IAM, STS, or CloudFront) log events globally to one region, us-east-1. These are called global service events and a trail needs to have this enabled in order to log these events.
+
+A trail by default can store events in a definable S3 bucket, and the logs can be stored there indefinitely. The logs are stored as a set of compressed JSON log files so they consume little space but with the benefit of being able to be parsed by any tooling that can read these standard format files. CloudTrail can also be integrated with CloudWatch Logs and store its data there in addition to S3.
+
+You can create an organizational trail. If you create a trail from the management account of an organization, it can store all of the information for all of the accounts inside that organization.
+
+CloudTrail is enabled by default on AWS accounts, but only for 90 days event history. S3 storage needs to be configured for a trail. Trails are how you configure S3 and CloudWatch Logs storage. By default, only management events are stored. Data events need to be specifically enabled and come at an extra cost. IAM, STS, CloudFront generate global service events, which are logged to us-east-1 and a trail needs to be created to log that data.
+
+One limitation of CloudTrail is that it is not real-time; there is a delay. CloudTrail typically delivers log files within 15 minutes of the account activity occurring. It generally publishes log files multiple times per hour.
+
+
+## Simple Storage Service (S3)
+### S3 Security
+S3 is private by default. The only identity which has any initial access to an S3 bucket is the account root user of the account which owns that bucket. Any other permissions have to be explicitly granted.
+
+S3 Bucket Policies are a type of resource policy, like an identity policy but attached to a bucket. They provide a resource perspective on permissions. With identity policies you are controlling what that identity can access, with resource policies you're controlling who can access that resource.
+
+Identity policies cannot give an identity in another account access to a resource in your account. With resource policies you can allow or deny access from different accounts. Resource policies can reference any other identities inside that policy. Resource policies are good for controlling access to a particular resource, no matter what the source of that access is.
+
+Resource policies can allow or deny anonymous principals. Identity policies, by contrast have to be attached to a valid identity in AWS. Resource policies can open a resource, like an S3 bucket, to anyone by referencing all principals. The Principal part of a resource policy defines which principals are affected by the policy. 
+
+Bucket policies should be your default thought for granting anonymous access to objects in buckets, and are one way of granting access to external accounts.
+
+Bucket policies can be used to control who can access objects, even allowing conditions which can block specific IP addresses. Bucket policies can be much more complex, for example one specific prefix can be protected by MFA.
+
+```
+"Resource": "arn:aws:s3::secretproject/boris/*",
+"Condition": { "Null": { "aws:MultiFactorAuthAge"L true } }
+```
+
+There can only be one bucket policy on a bucket, but it can have multiple statements. If an identity inside one AWS account is accessing a bucket, also in that same account, then the effective access is a combination of all of the applicable identity policies plus the resource policy (the bucket policy. For access by an anonymous principal, then only the bucket policy applies. If an identity in an external AWS account attempts to access a bucket in your account, your bucket policy applies, as well as anything that's in their identity policies.
+
+Access Control Lists (ACLs) are ways to apply security to objects or buckets. They are a sub-resource of that object or bucket. They are legacy and no longer recommended, with bucket policies or identity policies preferred. They are inflexible and only allow simple permissions, such as read or write. You can either configure ACLs on the bucket, or you configure the ACL on an object, but you can't have a single ACL that affects a group of objects. 
+
+S3 permissions have **Block Public Access** settings. This was added to prevent buckets being configured incorrectly and left open to the world. Block Public Access settings apply no matter what the bucket policies say, but they apply to just the public access. These settings can be set when you create a bucket and adjusted afterwards.
+
+You can:
+- Block public access entirely no matter what the resource policy says.
+- Allow any public access granted by any existing ACLs but blocks any new ones
+- Block any public access granted by ACLs, no matter if it was enabled before or after
+- Allow any existing public access granted by bucket policies or access point policies, but block any new ones
+- Block both existing and new bucket policies from granting any public access
+
+Exam power up
+Use Identity or Resource Policies based on the following:
+- Identity - controlling different resources across an account
+- Identity - you have a preference for managing permissions in one place - use IAM
+- Identity - same account, no external access
+- Bucket - just controlling S3
+- Bucket - anonymous or cross account
+- ACLs - never, unless you must
+
+### S3 Static Website Hosting
+Access to S3 is normally via the AWS APIs. S3 static website hosting allows access via HTTP, meaning you can host almost any kind of static website.
+
+When you enable static website hosting you have to set an index document (for the index page) and an error document (for handing errors). You need to point to a specific object (a HTML document) in the S3 bucket. When you enable this feature on a bucket, AWS creates a static website hosting endpoint, a specific address that can be accessed via HTTP. The name of this endpoint is determined by the bucket name and region.
+
+You can set up a custom domain using Route53 but your bucket name still matters. You can only use a custom domain with a bucket if the name of the bucket matches the domain.
+
+There are two scenarios particularly suited to static hosting on S3: offloading and out-of-band pages. Static assets, such as images, can be offloaded to S3, saving on more expensive compute. S3 is custom designed for storing large data at scale. Out of band pages could include maintenance pages while the main server is down.
+
+S3 has per gigabyte monthly costs for storage and data transfer out of S3. Transferring data into S3 is always free. You are charged for requesting data, so every time you get, list etc. Different operations have different costs per 1,000 operations.
+
+### Object Versioning and MFA Delete
+Object versioning lets you store multiple versions of an object within a bucket. It is a feature which is controlled at a bucket level. It starts out disabled. Once enabled, you cannot disable it again. You can suspend it on an enabled bucket and, if desired, re-enable it later.
+
+Without versioning enabled on a bucket, each object is identified solely by the object key (its name), which is unique inside the bucket. With versioning, any operations which would modify an object, generate a new version of the object and leave the original in place.
+
+When versioning is disabled, the ids of the objects in that bucket are set to null. With versioning enabled, S3 allocates an id to the object. If an operation modifies the object, S3 allocates a new id to the newer version and retains the old version.
+
+The newest version of any object in versioned bucket is known as the "current version" of that object. If an object is accessed without explicitly specifying which version is required, the current version will always eb returned. You can request an object with a specific id to get that version back.
+
+Versioning also impacts deletions. If you delete an object without providing an id, S3 will create a new special version of that object known as a delete marker. You can delete the delete marker to un-delete the object. 
+
+Even with versioning enabled, you can fully delete a version of an object. You delete an object and specify the particular version id you want to remove. If you delete the current version, then the next most recent version becomes the current version.
+
+Object versioning cannot be switched off, it can only be suspended. Space is consumed by all versions of the objects in the bucket. You are billed for storing all of these versions. The only way to zero those costs out is to delete the bucket and then re-upload all those objects to a bucket without versioning enabled.
+
+MFA delete is enabled within the versioning configuration on a bucket. When enabled, it means that MFA is required to change the bucket's versioning state. MFA would also be required to delete any versions of an object. You need to provide the serial number of your MFA token as well as the code that it generates when making API calls to delete versions or change the versioning state of a bucket.
+
+### S3 Performance Optimization
+By default, when you upload an object to S3 it's uploaded as a single blob of data in a single stream. A file becomes an object and it's uploaded using the PutObject API call and placed in a bucket. This all happens as a single stream. If a stream fails, the whole upload fails and the only recovery is a full restart of the entire upload. Speed and reliability is limited by this single stream of data, which is limited to 5GB of data.
+
+Multipart upload improves the speed and reliability of uploads to S3. It does this by breaking data up into individual parts. The minimum size for using multipart upload is 100MB. Most AWS tooling will automatically use it as soon as it becomes available. An upload can be split into a maximum of 10,000 parts with each part between 5MB and 5GB. The last part can be smaller than 5MB. Each individual part is treated as its own isolated upload, and can fail in isolation and be restarted in isolation. The transfer rate of the whole upload is the sum of the individual parts.
+
+S3 Transfer Acceleration uses the network of AWS edge locations to ensure data is transferred to S3 through the AWS global network, spending less time on normal networks. To enable it, the bucket name cannot contain periods and it needs to be DNS-compatible in its naming. 
+
+Data immediately enters the closest, best-performing AWS edge location, and . The edge locations transfer the data over the AWS global network, which is purpose built to link regions to other regions in the AWS network with lower consistent latency. The benefits of transfer acceleration improve the larger the distance between the upload location and the S3 bucket.
+
