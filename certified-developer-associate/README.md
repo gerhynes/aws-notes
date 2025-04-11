@@ -1167,10 +1167,112 @@ One Zone-IA has a per GB data retrieval fee and overall cost increase with frequ
 
 For the exam: S3 One Zone-IA should be used for long-lived data, which is non-critical and replaceable and where access is infrequent.
 
-S3 Glacier - Instant Is like S3 Standard-IA except it offers cheaper storage, more expensive retrieval and a longer minimum duration.
+**S3 Glacier - Instant** is like S3 Standard-IA except it offers cheaper storage, more expensive retrieval and a longer minimum duration. Standard-IA is designed for when you need data instantly but not very often, say once a month. Glacier Instant is similar but might only be accessed once a quarter. It has a minimum storage duration charge of 90 days.
 
+**S3 Glacier - Flexible** is about 1/6th the cost of S3 Standard but has the trade-off that objects are "cold" and not immediately available for access. Objects cannot be made publicly accessible. Any access of data beyond object metadata requires a retrieval process. Objects retrieved from S3 Glacier Flexible are stored in S3 Standard - IA on a temporary basis. You can retrieve them permanently by changing their storage class in a different process.
 
-### TODO Other sections
+Data in S3 Glacier Flexible is retrieved to S3 Standard-IA. The faster the retrieval, the more expensive it is:
+- Expedited (1-5 minutes)
+- Standard (3.5 hours)
+- Bulk (5-12 hours)
+
+First byte latency can be estimated in minutes or hours. Other limits are a 40KB minimum billable size and a 90 day minimum billable duration.
+
+For the exam: Glacier Flexible is for situations where you need to store archival data where frequent or realtime access isn't needed, for example years access. You also need to be ok with minutes to hours of retrieval.
+
+**S3 Glacier Deep Archive** is the cheapest form of S3 storage but has even more restrictions. Data is "frozen". Objects have a 40KB minimum billable size and 180 day minimum billable duration. Objects cannot be made publicly accessible. Any access of data beyond object metadata requires a retrieval process.
+
+Data in Glacier Deep Storage is retrieved to S3 Standard-IA temporarily:
+- Standard (12 hours)
+- Bulk (up to 48 hours)
+First byte latency can be hours or days.
+
+For the exam: Glacier Deep Storage is for data that rarely if ever needs to be accessed since retrieval takes hours or days. It is suitable for legal or regulatory data storage retention length. It is not suited for primary system backups and is better suited for secondary archival backups.
+
+**S3 Intelligent Tiering** is actually a storage class that contains five different storage tiers:
+- Frequent Access (like S3 Standard)
+- Infrequent Access (like S3 Standard-IA)
+- Archive Instant Access (like Glacier Instant)
+- Archive Access (like Glacier Flexible)
+- Deep Archive (like Glacier Deep Archive)
+
+The system automatically moves objects between tiers for you by monitoring their use, for example moving objects that haven't been accessed for 30 days to a lower cost infrequent access tier, to archive after 90 days and to deep archive after 180 or 730 days. There's a 90 day minimum for Archive Instant Access.
+
+S3 Intelligent Tiering has a monitoring and automation cost per 1,000 objects. The frequent access tier costs the same as S3 Standard, the infrequent the same as S3 Standard-IA, Archive Instant, Archive and Deep Archive are comparable to their S3 Glacier equivalents.
+
+For the exam: S3 Intelligent Tiering should be used for long-lived data with changing or unknown patterns.
+
+### S3 Lifecycle Configuration
+You can create lifecycle rules on S3 buckets which can automatically transition or expire objects in the bucket. They are a great way to optimize costs for larger S3 buckets.
+
+A lifecycle configuration is a set of rules applied to a bucket. These rules consist of actions based on criteria (do x if y is true). These rules can apply to a whole bucket or to groups of objects (defined by prefix or tags).
+
+Transition Actions change the storage class of whatever objects are affected. Expiration Actions can delete the affected objects or object versions. You might want to automatically change storage class or expire objects entirely after a certain time period to optimize costs. This isn't based on how frequently the object is accessed. For that you'd need Intelligent Tiering.
+
+You can think of transitioning storage classes like a waterfall, it goes downwards. So Glacier Flexible Retrieval can transition into Glacier Deep Archive. Glacier Instant Retrieval can transition into Glacier Flexible Retrieval or Glacier Deep Archive.
+
+Larger collections of smaller objects can cost more because of the minim size in different storage classes. Objects must remain in S3 Standard for a minimum of 30 days before moving into Infrequent Access or One-Zone Infrequent Access.
+
+A **single rule** cannot transition from S3 Standard to Standard-IA or One-Zone-IA and then to the glacier classes within a 30 day minimum. Two processes can do this without a gap.
+
+### S3 Replication
+S3 supports two types of replication:
+- Cross-Region Replication (CRR)
+- Same-Region Replication (SRR)
+
+Cross-Region Replication allows for the replication of objects from one or more source buckets to destination buckets in different AWS regions. Same-Region Replication is the same process but both source and destination buckets are in the same AWS region.
+
+Replication differs if it is within the same account or between different accounts. In both cases, replication configuration is applied to the source bucket. The config specifies the destination bucket and the IAM role to use for the replication process. 
+
+When replicating in the same account, the IAM role automatically has access to the source and destination buckets as long as the role's permissions policy grants that access. When replicating between accounts, the role isn't by default trusted by the destination account. You need to add a bucket policy on the destination bucket, which allows the role in the source account to replicate the objects into it.
+
+In terns of replication options, the default is to replicate the entire source bucket to a destination bucket. You can, however, choose a subset of objects, filtered by prefixes and/or tags. You can also select which storage class the objects in the destination bucket will use. The default is to use the same class but you can pick a cheaper one. You can also define the ownership of the objects in the destination bucket. The default is the source account. You can override this so that the account containing the destination bucket can access it. Replication Time Control (RTC) adds a guaranteed 15 minute replication SLA onto this process.
+
+There are some replication considerations that you should be aware of.
+- By default, replication isn't retroactive and versioning needs to be enabled for both source and destination bucket
+- Batch replication can be used to replicate existing objects
+- Replication is one way, objects are replicated from the source to the destination. Bi-directional replication is available as an additional 
+- Replication can handle objects that are unencrypted, SSE-S£, SSE-KSM (with extra config), SSE-C 
+- The source bucket owner needs permissions to objects
+- System events, Glacier or Glacier Deep Archive are not replicated
+- By default, deletes are not replicated. This can be enabled through DeleteMarkerReplication 
+
+Why use replication? For same region replication, you might use this process for log aggregation, for syncing prod and test environments, to implement resilience under strict sovereignty requirements. For cross region replication, you can implement global resilience improvements, reduce latency
+
+### S3 Presigned URLs
+Presigned URLs are an S3 feature which allows the system to generate a URL with access permissions encoded into it, for a specific bucket and objects, valid for a certain time period.
+
+When a presigned URL is used, the holder of that URL is interacting with S3 **as** the person who generated the URL.
+
+Presigned URLs can be used for both download and upload operations. They are often used when offloading media into S3. For example, with presigned URLs for media buckets you can keep the bucket private while making individual objects (images, videos, audio) available to the end user. An IAM user is created for the application and they generate presigned URLs when requests for media objects are received.
+
+For the exam: 
+- You can create a presigned URL for an objects you have no access to. The only requirements are that you specify a particular object and an expiry date and time.
+- When using the URL, the permissions match the identity which generated it (right now, not just at time of generation)
+- Access denied errors could mean that the generating ID never had access, or doesn't have access now
+- Don't generate presigned URLS from an IAM Role, the URL stops working when the temporary credentials expire
+
+### S3 Select and Glacier Select
+S3 Select and Glacier select are ways to use SQL-like statements to retrieve partial objects from S3 and Glacier.
+
+S3 can store an infinite number of huge objects, each up to 5TB in size. You will often want to retrieve the entire object but, for example, retrieving a 5TB object takes time and consumes 5TB of transfer. Client side filtering doesn't reduce this. S3/Glacier Select lets you use SQL-like statements to access parts of objects, pre-filtered by S3.
+
+You can use S3/Glacier Select on CSV, JSON, Parquet, BZIP2 compressed CSV and JSON.
+
+Without S3/Glacier Select, filtering occurs in app on the full amount of data retrieved from and billed for by S3. With S3/Glacier Select, selection and filtering happens in the S3 service, meaning less data is transferred and billed for. It is up to 400% faster and 80% cheaper. Applications will need to explicitly use S3/Glacier Select.
+
+### Cross-Origin Resource Sharing (CORS)
+Cross-origin resource sharing (CORS) defines a way for client web applications that are loaded in one domain to interact with resources in a different domain.
+
+Same-origin requests are always allowed. The origin is defined on the initial request. Requests to other domains (cross-origin requests) are restricted by default but can be controlled by CORS.
+
+CORS configurations are defined on the other origins. The define which origins they can receive requests from. CORS configurations are processed in order. The first rule which matches is used.
+
+CORS requests can be simple requests or preflight requests. More complicated requests require a preflight. This checks the other origin in advance. 
+
+The `Access-Control-Allow-Origin` request header will either contain a `*` wildcard or the particular origin(s) you want to allow. `Access-Control-Max-Age` indicates how long the results of a preflight request may be cached. `Access-Control-Allow-Methods` lists the HTTP methods that can be used for CORS requests. `Access-Control-Allow-Headers` determines which headers can be used in the actual request.
+ 
+With CORS support, you can build client-side web applications with S3 and selectively allow cross-origin access to your other AWS resources.
 
 ### S3 Events
 The S3 event notification feature lets you configure event notifications on a bucket. A notification is generated when a certain thing occurs in a bucket. These notifications can be delivered to different destinations, including SNS, SQS, and Lambda functions. This means you can have event-driven processes that occur as a result of things happening in S3.
@@ -1189,3 +1291,33 @@ Logging is managed by a system, the S3 Log Delivery Group. This is a best effort
 Logs are delivered as log files with each file consisting of log records. Records are newline-delimited. Each record's attributes, such as date and time or status codes, are space-delimited. A single target bucket can be used for many source buckets. These are separated using prefixes in the target bucket.
 
 Access logging provides detailed information about the requests made to the source bucket. They are helpful for security functions and access audits. You need to manage the lifecycle and deletion of the log files.
+
+### S3 Requester Pays
+In general, bucket owners pay for all S3 storage and data transfer costs associated with their bucket. A bucket owner, however, can configure a bucket to be a Requester Pays bucket. With Requester Pays, the requester instead of the bucket owner pays the cost of the request and the data download from the bucket. The bucket owner always pays the cost of storing data.
+
+Requester Pays is a bucket configuration. It cannot be set per object. The feature doesn't work with static website hosting or BitTorrent. The "requester" needs to be an authenticated AWS identity. Unauthenticated access is not support because S3 needs to allocate billing to an identity.
+
+### S3 Object Lock
+You can use S3 Object Lock to store objects using a write-once-read-many (WORM) model (no deletes or overwrites). It can help to prevent objects from being deleted or overwritten for a fixed amount of time or indefinitely. 
+
+You can use S3 Object Lock to meet regulatory requirements that require WORM storage, or add an extra layer of protection against object changes and deletion. 
+
+Object lock can be enabled for new buckets. AWS support is required to add it to existing buckets. 
+
+Object Lock requires versioning to be enabled. Individual versions are locked. You cannot suspend Object Lock.
+
+Object Lock manages object retention through two ways:
+1. Retention Periods 
+2. Legal Holds. 
+
+An object version can have both of these, one or the other, or none.
+
+A bucket can have default Object Lock settings.
+
+When you create the Object Lock you specify the retention period in days and/or years. A one year retention period will expire one year from when it is applied, not from when the object was created.
+
+If you set a retention period using Compliance Mode then the object version cannot be adjusted, deleted, or overwritten. The retention period cannot be shortened and the retention mode cannot be adjusted, even by the account root user, until the retention expires.
+
+Governance Mode is a less strict version. Special permissions can be granted allowing lock settings to be adjusted. The permission `s3:BypassGovernanceRetention` and header `x-amz-bypass-governance-retention:true` (the default in the console UI) can bypass the governance mode of retention.
+
+With S3 Object Lock Legal Hold, you don't set a retention period at all. On an object version, you set a legal hold to ON or OFF. No deletions or changes are allowed until this hold is removed. The permission `s3:PutObjectLegalHold` is required to add or remove the hold.
